@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="402.0" prefWidth="715.0">
+         <children>
+            <Label alignment="CENTER" layoutY="28.0" prefHeight="21.0" prefWidth="715.0" text="Complete all the fields for a succesfull SignUp" underline="true">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <VBox layoutX="60.0" layoutY="94.0" prefHeight="149.0" prefWidth="596.0" spacing="30.0">
+               <children>
+                  <HBox prefHeight="15.0" prefWidth="596.0" spacing="100.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="243.0" spacing="30.0">
+                           <children>
+                              <Label fx:id="lbUsername" text="Username" />
+                              <TextField fx:id="txtUsername" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="241.0" spacing="35.0">
+                           <children>
+                              <Label fx:id="lbPassword" text="Password" />
+                              <PasswordField fx:id="txtPassword" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="25.0" prefWidth="628.0" spacing="51.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="263.0" spacing="55.0">
+                           <children>
+                              <Label fx:id="lbEmail" text="Email" />
+                              <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="148.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="293.0" spacing="7.0">
+                           <children>
+                              <Label fx:id="lbRepeatPassword" prefHeight="21.0" prefWidth="120.0" text="Repeat Password" />
+                              <PasswordField fx:id="txtRepeatPassword" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="27.0" prefWidth="587.0" spacing="32.0">
+                     <children>
+                        <Label fx:id="lbFullName" text="Full name" />
+                        <TextField fx:id="txtFullName" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox layoutX="569.0" layoutY="361.0" prefHeight="27.0" prefWidth="132.0" spacing="25.0">
+               <children>
+                  <Button fx:id="btBack" mnemonicParsing="false" text="Back" />
+                  <Button fx:id="btSignUp" mnemonicParsing="false" text="SignUp" />
+               </children>
+            </HBox>
+            <VBox layoutX="37.0" layoutY="274.0" prefHeight="101.0" prefWidth="329.0">
+               <children>
+                  <Label fx:id="lbUsernameCaution" text="*Username 4 -10 characters">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbEmailCaution" text="*Email possibility example &quot;email.example@extension.cope&quot;" />
+                  <Label fx:id="lbPasswordCaution1" text="*Password 8 -14 characters">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <VBox prefHeight="37.0" prefWidth="316.0">
+                     <children>
+                        <Label fx:id="lbPasswordCaution2A" text="*Password must have at least one">
+                           <font>
+                              <Font name="System Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbPasswordCaution2B" text=" uppercase and one number">
+                           <font>
+                              <Font name="System Italic" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>

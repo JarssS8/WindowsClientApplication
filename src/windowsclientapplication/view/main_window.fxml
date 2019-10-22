@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bopMainWin" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <HBox fx:id="hbStatBar" prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="mwHBLeft" prefHeight="25.0" prefWidth="400.0">
+               <children>
+                  <Label layoutX="8.0" layoutY="4.0" text="Welcome" />
+                  <Label fx:id="lblStatusUser" layoutX="67.0" layoutY="4.0" text="&lt;User&gt;" />
+               </children>
+            </Pane>
+            <Pane fx:id="mwHBRight" prefHeight="25.0" prefWidth="400.0">
+               <children>
+                  <Label layoutX="12.0" layoutY="4.0" text="Last connection:" />
+                  <Label fx:id="lblStatusLastConn" layoutX="109.0" layoutY="4.0" text="&lt;last conn. date&gt;" />
+                  <Hyperlink fx:id="hlLogOut" layoutX="336.0" layoutY="1.0" text="LogOut" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <MenuBar fx:id="mvMenu" prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu fx:id="menOpt" mnemonicParsing="false" text="Options">
+            <items>
+              <MenuItem fx:id="mbClose" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu fx:id="menHel" mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="mbAbout" mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <Pane fx:id="mwMFrame" prefHeight="550.0" prefWidth="800.0" style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblUser" layoutX="36.0" layoutY="27.0" text="&lt;full user name&gt;">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="36.0" layoutY="62.0" text="Your last connection : " />
+            <Label fx:id="lblLastConn" layoutX="178.0" layoutY="62.0" text="&lt;last conn. date&gt;" />
+            <Label layoutX="612.0" layoutY="519.0" text="Account type:" />
+            <Label fx:id="lblAccount" layoutX="693.0" layoutY="519.0" text="&lt;account priv.&gt;" />
+            <Label layoutX="36.0" layoutY="289.0" text="Last date you changed your password:" />
+            <Label fx:id="lblLastPass" layoutX="271.0" layoutY="289.0" text="&lt;last pass. date&gt;" />
+            <Label layoutX="36.0" layoutY="140.0" text="E-mail : " />
+            <Label fx:id="lblEmail" layoutX="95.0" layoutY="138.0" text="&lt;email&gt;" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
