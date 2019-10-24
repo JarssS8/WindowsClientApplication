@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import windowsclientapplication.controller.*;
 
 /**
  *
@@ -20,21 +19,12 @@ public class WindowsClientApplication extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/SignUp_Window.fxml"));
-        Parent root =(Parent)loader.load();
-        
-        SignUpWindowController controller =((SignUpWindowController)loader.getController());
-        
-        controller.setStage(stage);
-        controller.initStage(root);
-        /*
-         Parent root = FXMLLoader.load(getClass().getResource("view/SignUp_Window.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.show();
-        */
     }
 
     /**
