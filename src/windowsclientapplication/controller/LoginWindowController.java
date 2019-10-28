@@ -7,16 +7,21 @@ package windowsclientapplication.controller;
 
 import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
+import java.util.Optional;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import static utilities.beans.Message.LOGIN_MESSAGE;
@@ -30,7 +35,7 @@ import windowsclientapplication.exception.WindowsProjectException;
 
 /**
  *
- * @author adria
+ * @author Adrian
  */
 public class LoginWindowController {
 
@@ -76,6 +81,7 @@ public class LoginWindowController {
      * This method initialize the window and everything thats the stage needs.
      * This calls other method when shows the window to set attributes of the
      * window
+     *
      * @param root The parent object
      */
     public void initStage(Parent root) {
@@ -86,25 +92,52 @@ public class LoginWindowController {
         stage.setTitle("LogIn");
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnCloseRequest(this::closeRequest);
+
         //Listeners
         txtUsername.textProperty().addListener(this::textChange);
         txtPassword.textProperty().addListener(this::textChange);
+
         //Stage show
         stage.show();
     }
 
     /**
-     * This is the method to control the components of this window when we shows the window
+     * This is the method to control the components of this window when we shows
+     * the window
+     *
      * @param event The event is the window that is being showed
      */
     private void handleWindowShowing(WindowEvent event) {
         btLogin.setDisable(true);
 
     }
+    
+    /**
+     * This method is used if the user try to close the application clicking 
+     * in the red cross(right-top in the stage) and control if the user are sure to close the application
+     * @param event The event is the user trying to close the application with the cross of the stage
+     */
+    public void closeRequest(WindowEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Window");
+        alert.setContentText("Are you sure that want close the application?");
+        alert.initOwner(stage);
+        alert.initModality(Modality.WINDOW_MODAL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            stage.close();
+            Platform.exit();
+
+        } else {
+            event.consume();
+        }
+    }
 
     /**
      * Checks every time that the user change the TextField and if both formats
      * are correct set the login button enable
+     *
      * @param event The event when the text is changing
      */
     private void textChange(ObservableValue observable, String oldValue, String newValue) {
@@ -126,6 +159,7 @@ public class LoginWindowController {
      * This method send the txtUsername and the txtPassword to the factory and
      * waits if the user exits on dataBase and the password is correct for go to
      * the logout window
+     *
      * @param event The event is the user clicking on the login button
      * @throws utilities.exception.LoginNotFoundException
      * @throws utilities.exception.DBException
@@ -141,14 +175,20 @@ public class LoginWindowController {
             Connectable client = ConnectableClientFactory.getClient();
             user = client.logIn(user);
 
-            if (client.getMessage().equals(LOGIN_MESSAGE)) {
+            if (client.getMessage().equals(LOGIN_MESSAGE)) {//User exists on DataBase
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
                 Parent root = (Parent) loader.load();
                 LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
                 logOutController.setStage(stage);
                 logOutController.initStage(root, user);
             } else {
-                throw new LoginNotFoundException("Login not correct");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("LogIn Error");
+                alert.setContentText("An error ocurred trying to log in, please try it again.");
+                alert.initOwner(stage);
+                alert.initModality(Modality.WINDOW_MODAL);
+                alert.showAndWait();
+                event.consume();
             }
         } catch (LoginNotFoundException e) {
             throw new LoginNotFoundException(e.getMessage());
@@ -165,10 +205,12 @@ public class LoginWindowController {
             throw new WindowsProjectException(e.getMessage());
         }
     }
-    
+
     /**
-     * This method opens the sign up window when the user clicks on the hyperlink click here
-     * @param event The event 
+     * This method opens the sign up window when the user clicks on the
+     * hyperlink click here
+     *
+     * @param event The event
      * @throws IOException Error when can't access to the fxml view
      */
     public void signUpClick(ActionEvent event) throws IOException {
