@@ -5,17 +5,26 @@
  */
 package windowsclientapplication.controller;
 
+import clientlogic.logic.Client;
+import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import utillities.beans.User;
+import utilities.beans.User;
+import utilities.exception.LogicException;
 
 /**
  *
@@ -27,61 +36,135 @@ public class LogOutWindowController {
             .getLogger("windowsclientapplication.LogOutWindowController");
     
     @FXML
-    private Menu menOpt;
+    private MenuItem mbClose;
     @FXML
-    private Menu menHelp;
+    private MenuItem mbAbout;
     @FXML
-    private MenuItem menClose;
+    private Hyperlink hlLogOut;
     @FXML
-    private MenuItem menAbout;
+    private Label lblUser;
+    @FXML
+    private Label lblLastConn;
+    @FXML
+    private Label lblEmail;
+    @FXML
+    private Label lblLastPass;
+    @FXML
+    private Label lblStatusUser;
+    @FXML
+    private Label lblStatusLastConn;
     
-    private User usr;
+    
     private Stage stage;
+    private Client client=null;
+    private User user=null;
     
     /**
      * Method to initialize the window
      * @param root 
+     * @param client 
+     * @param user 
      */
-    public void initStage (Parent root){
+    public void initStage (Parent root,Client client,User user){
         try{
+            this.client = client;
+            this.user = user;
             Scene scene = new Scene(root);
             stage = new Stage();
-            //Window set to modal window
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.setTitle("Welcome");
             stage.setResizable(false);
             stage.setOnShowing(this::onWindowShowing);
+            stage.setOnCloseRequest(this::handleCloseAction);
+            mbClose.setOnAction(this::handleCloseAction);
+            mbAbout.setOnAction(this::handleAboutAction);
+            hlLogOut.setOnAction(this::handleLogOutAction);
             stage.showAndWait();
         }
         catch(Exception e){
-            //TODO have to code the exception for this initStage-Catch
+            LOGGER.severe("Can not initialize the main window");
         }
     }
     
     
     
     /**
-     * Method that handle the buttons press actions
+     * Method that handle the close option of the menu bar / confirmation
+     * close alert
      * @param event 
      */
-   private void handleButtonAction(ActionEvent event) {
-        //label.setText(greeting);
-        
-        //TODO set the text to the labels
-        
+   private void handleCloseAction(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Close confirmation");
+        alert.setHeaderText("You pressed the 'Close' button.");
+        alert.setContentText("Are you sure?");
+        alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.YES){
+            try {
+                client.logOut(user);
+                LOGGER.info("User loggin date updated sucesfully");
+                Platform.exit();
+            } catch (LogicException ex) {
+            LOGGER.severe("Problems updating the Log In date on close");
+            }
+        }
+        else
+            alert.close();
     }
+   
+   /**
+    * Method that handle the log out option of the status bar / confirmation
+    * log out alert
+    * @param event 
+    */
+   private void handleLogOutAction(ActionEvent event){
+       Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("LogOut confirmation");
+        alert.setHeaderText("You pressed the 'LogOut' button.");
+        alert.setContentText("Are you sure?");
+        alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.YES){
+            try {
+                client.logOut(user);
+                LOGGER.info("User loggin date updated sucesfully");
+                stage.close();
+            } catch (LogicException ex) {
+            LOGGER.severe("Problems updating the Log In date on logout");
+            }
+        }
+        else
+            alert.close();
+   }
+   
+   /**
+    * Method that handle the about/help option of the menu bar / help window
+    * @param event 
+    */
+   private void handleAboutAction(ActionEvent event) {
+       //TODO Opens the help window
+       
+   }
     
     /**
      * Method that loads the texts and prepare the objects of the window
-     * @param e 
+     * @param event
      */
-    private void onWindowShowing(WindowEvent e){
-        LOGGER.info("Starting onWindoShowing");
+    private void onWindowShowing(WindowEvent event){
+        String auxName=user.getFullName();
+        LOGGER.info("Starting loading the labels");
+        lblUser.setText(auxName);
+        lblLastConn.setText(user.getLastAccess().toString());   
+        lblEmail.setText(user.getEmail());
+        lblLastPass.setText(user.getLastPasswordChange().toString());
+        lblStatusUser.setText(auxName.substring(0, auxName.indexOf(" ")));
+        lblStatusLastConn.setText(user.getLastAccess().toString());           
     }
 
     /**
-     * 
+     * Method that sets the stage
      * @param stage 
      */
     void setStage(Stage stage) {
