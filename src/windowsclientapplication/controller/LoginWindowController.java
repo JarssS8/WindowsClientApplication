@@ -9,22 +9,16 @@ import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.swing.JOptionPane;
-import utilities.beans.Message;
 import static utilities.beans.Message.LOGIN_MESSAGE;
 import utilities.beans.User;
 import utilities.exception.DBException;
@@ -65,20 +59,14 @@ public class LoginWindowController {
     private PasswordField txtPassword;
 
     /**
-     * This is the hyperlink for go to the sign up window
-     */
-    @FXML
-    private Hyperlink linkClickHere;
-
-    /**
-     * @return the stage
+     * @return Return the stage of this class
      */
     public Stage getStage() {
         return stage;
     }
 
     /**
-     * @param stage the stage to set
+     * @param stage Sets the stage for this class
      */
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -88,7 +76,6 @@ public class LoginWindowController {
      * This method initialize the window and everything thats the stage needs.
      * This calls other method when shows the window to set attributes of the
      * window
-     *
      * @param root The parent object
      */
     public void initStage(Parent root) {
@@ -107,8 +94,8 @@ public class LoginWindowController {
     }
 
     /**
-     *
-     * @param event
+     * This is the method to control the components of this window when we shows the window
+     * @param event The event is the window that is being showed
      */
     private void handleWindowShowing(WindowEvent event) {
         btLogin.setDisable(true);
@@ -118,7 +105,6 @@ public class LoginWindowController {
     /**
      * Checks every time that the user change the TextField and if both formats
      * are correct set the login button enable
-     *
      * @param event The event when the text is changing
      */
     private void textChange(ObservableValue observable, String oldValue, String newValue) {
@@ -140,7 +126,6 @@ public class LoginWindowController {
      * This method send the txtUsername and the txtPassword to the factory and
      * waits if the user exits on dataBase and the password is correct for go to
      * the logout window
-     *
      * @param event The event is the user clicking on the login button
      * @throws utilities.exception.LoginNotFoundException
      * @throws utilities.exception.DBException
@@ -157,7 +142,7 @@ public class LoginWindowController {
             user = client.logIn(user);
 
             if (client.getMessage().equals(LOGIN_MESSAGE)) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main_window.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
                 Parent root = (Parent) loader.load();
                 LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
                 logOutController.setStage(stage);
@@ -184,10 +169,10 @@ public class LoginWindowController {
     /**
      * This method opens the sign up window when the user clicks on the hyperlink click here
      * @param event The event 
-     * @throws IOException 
+     * @throws IOException Error when can't access to the fxml view
      */
     public void signUpClick(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("windowsclientapplication/view/main_window.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/SignUp_Window.fxml"));
         Parent root = (Parent) loader.load();
         SignUpWindowController signUpController = ((SignUpWindowController) loader.getController());
         signUpController.setStage(stage);
