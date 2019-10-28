@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import windowsclientapplication.controller.LoginWindowController;
 
 /**
  *
@@ -19,12 +20,11 @@ public class WindowsClientApplication extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("view/LogIn_Window.fxml"));
+        Parent root = (Parent)loader.load();
+        LoginWindowController logInController= ((LoginWindowController)loader.getController());
+        logInController.setStage(stage);
+        logInController.initStage(root);
     }
 
     /**
