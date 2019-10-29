@@ -7,9 +7,11 @@ package windowsclientapplication.controller;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +19,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Border;
@@ -26,6 +31,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utilities.beans.User;
+import utilities.exception.DBException;
 import utilities.exception.LogicException;
 import utilities.exception.LoginAlreadyTakenException;
 import utilities.interfaces.Connectable;
@@ -86,7 +92,7 @@ public class SignUpWindowController {
         txtPassword.textProperty().addListener(this::handleTextChange);
         txtRepeatPassword.textProperty().addListener(this::handleTextChange);
         txtEmail.textProperty().addListener(this::handleTextChange);
-        //stage.setOnCloseRequest(true);
+        stage.setOnCloseRequest(this::handleCloseAction);
         stage.show();
     }
     /**
@@ -102,6 +108,20 @@ public class SignUpWindowController {
         txtFullName.setPromptText("Introduce full name");
         btSignUp.setDisable(true);
     }
+    private void handleCloseAction(WindowEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Close confirmation");
+        alert.setHeaderText("You pressed the 'Close' button.");
+        alert.setContentText("Are you sure?");
+        alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == ButtonType.YES){
+            stage.close();
+        }
+        else{
+            alert.close();
+        }
+    }
      /**
       * A method that registres the button actions
       * @param event 
@@ -110,18 +130,33 @@ public class SignUpWindowController {
         
         if(event.getSource().equals(btBack)){
            LOGGER.info("Closing the window");
-           stage.close();
-            
+           Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Close confirmation");
+            alert.setHeaderText("You pressed the 'Close' button.");
+            alert.setContentText("Are you sure?");
+            alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == ButtonType.YES){
+                stage.close();
+            }else{
+                alert.close();
+            }
         }if(event.getSource().equals(btSignUp)){
-            LOGGER.info("Creating new user...");
-            User user= new User();
-            user.setLogin(txtUsername.getText());
-            user.setPassword(txtPassword.getText());
-            user.setEmail(txtEmail.getText());
-            user.setFullName(txtFullName.getText());
-           /* try {
+            try{ 
+                LOGGER.info("Creating new user...");
+                User user= new User();
+                user.setLogin(txtUsername.getText().trim().substring(0,9));
+                user.setPassword(txtPassword.getText().trim().substring(0, 13));
+                user.setEmail(txtEmail.getText().trim().substring(0, 69));
+                user.setFullName(txtFullName.getText().trim().substring(0, 44));
+           
                 LOGGER.info("Sending the user...");
-                client.signUp(user);
+                try {
+                    client.signUp(user);
+                } catch (DBException ex) {
+                    Logger.getLogger(SignUpWindowController.class.getName())
+                        .log(Level.SEVERE, null, ex);
+                }
                 LOGGER.info("User send");
             } catch (LoginAlreadyTakenException ex) {
                 Logger.getLogger(SignUpWindowController.class.getName())
@@ -129,7 +164,7 @@ public class SignUpWindowController {
             } catch (LogicException ex) {
                 Logger.getLogger(SignUpWindowController.class.getName())
             .log(Level.SEVERE, null, ex);
-            }*/
+            }
         }
         
         
@@ -201,7 +236,7 @@ public class SignUpWindowController {
      * @param observable
      * @param oldValue
      * @param newValue 
-     */
+    */
     private void handleTextChange (ObservableValue observable,String oldValue,
         String newValue){
         
@@ -217,7 +252,6 @@ public class SignUpWindowController {
         boolean passwordRepeat = false;
         boolean email = false;
         
-        LOGGER.info("Checking the username length");
         if(txtUsername.getText().trim().length()>3 && 
             txtUsername.getText().trim().length()<11){
             
@@ -225,40 +259,33 @@ public class SignUpWindowController {
             lbUsernameCaution.setTextFill(Paint.valueOf("BLACK"));
     
         }else{
-            LOGGER.info("Username length incorrect");
             btSignUp.setDisable(true);
             lbUsernameCaution.setTextFill(Paint.valueOf("RED")); 
             
         }
         
-        LOGGER.info("Checking the password length");
         if(txtPassword.getText().trim().length()>7 && 
             txtPassword.getText().trim().length()<15){
             
-            LOGGER.info("Password length correct");
             passwordlength=true;
             lbPasswordCaution1.setTextFill(Paint.valueOf("BLACK"));
                 
         }else{
             
-            LOGGER.info("Password length incorrect");
             btSignUp.setDisable(true);
             lbPasswordCaution1.setTextFill(Paint.valueOf("RED"));
             lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
                 
         }
         
-        LOGGER.info("Checking if the passdword have a uppercase and a number");
         if(passCheck){
             
-            LOGGER.info("Valid password");
             passwordCheck=true;
             lbPasswordCaution2A.setTextFill(Paint.valueOf("BLACK"));    
             lbPasswordCaution2B.setTextFill(Paint.valueOf("BLACK")); 
                     
         }else{
             
-            LOGGER.info("Invalid password");
             btSignUp.setDisable(true);
             lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
             lbPasswordCaution2B.setTextFill(Paint.valueOf("RED"));
@@ -266,40 +293,32 @@ public class SignUpWindowController {
                     
         } 
         
-        LOGGER.info("Checking if the passwords are the same");
         if(passCheckRepeat){
             
-            LOGGER.info("Passwords are the same");
             passwordRepeat=true;
             lbPasswordCaution3.setTextFill(Paint.valueOf("BLACK"));
                     
         }else{
             
-            LOGGER.info("The password arent the same");
             btSignUp.setDisable(true);
             lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
                         
         }  
         
-        LOGGER.info("Checking the email pattern");
         if(emailCheck){
             
-            LOGGER.info("Email correct");
             emailCheck=true;
             lbEmailCaution.setTextFill(Paint.valueOf("BLACK"));
                     
         }else{
             
-            LOGGER.info("Email incorrect");
             btSignUp.setDisable(true);
             lbEmailCaution.setTextFill(Paint.valueOf("RED"));
                     
         }
-        LOGGER.info("Checking all of the validations");
         if(username && passwordlength && passwordRepeat && passwordCheck 
             && emailCheck){
             
-            LOGGER.info("All validates ok");
             btSignUp.setDisable(false);
 
         }
