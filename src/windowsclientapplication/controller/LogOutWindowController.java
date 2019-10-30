@@ -25,13 +25,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utilities.beans.User;
 import utilities.exception.LogicException;
+import utilities.interfaces.Connectable;
 
 /**
  *
  * @author Diego Urraca
  */
 public class LogOutWindowController {
-    //TODO Logger need to be erased at the end!!
     private static final Logger LOGGER = Logger
             .getLogger("windowsclientapplication.LogOutWindowController");
     
@@ -54,9 +54,8 @@ public class LogOutWindowController {
     @FXML
     private Label lblStatusLastConn;
     
-    
     private Stage stage;
-    private Client client=null;
+    private Connectable client=null;
     private User user=null;
     
     /**
@@ -65,7 +64,7 @@ public class LogOutWindowController {
      * @param client 
      * @param user 
      */
-    public void initStage (Parent root,Client client,User user){
+    public void initStage (Parent root,Connectable client,User user){
         try{
             this.client = client;
             this.user = user;
@@ -140,7 +139,7 @@ public class LogOutWindowController {
    }
    
    /**
-    * Method that handle the about/help option of the menu bar / help window
+    * Method that handle the about/help option of the menu bar
     * @param event 
     */
    private void handleAboutAction(ActionEvent event) {
@@ -167,7 +166,7 @@ public class LogOutWindowController {
      * Method that sets the stage
      * @param stage 
      */
-    void setStage(Stage stage) {
+    public void setStage(Stage stage) {
         this.stage=stage;
     }
     
