@@ -62,6 +62,8 @@ public class LoginWindowController {
      */
     @FXML
     private PasswordField txtPassword;
+    
+    private Connectable client;
 
     /**
      * @return Return the stage of this class
@@ -84,9 +86,9 @@ public class LoginWindowController {
      *
      * @param root The parent object
      */
-    public void initStage(Parent root) {
+    public void initStage(Parent root,Connectable client) {
         Scene scene = new Scene(root);
-
+        this.client = client;
         //Stage Properties
         stage.setScene(scene);
         stage.setTitle("LogIn");
@@ -172,26 +174,22 @@ public class LoginWindowController {
             User user = new User();
             user.setLogin(txtUsername.getText().trim());
             user.setPassword(txtPassword.getText().trim());
-            Connectable client = ConnectableClientFactory.getClient();
             user = client.logIn(user);
 
-            if (client.getMessage().equals(LOGIN_MESSAGE)) {//User exists on DataBase
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
                 Parent root = (Parent) loader.load();
                 LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
                 logOutController.setStage(stage);
-                logOutController.initStage(root, user);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("LogIn Error");
-                alert.setContentText("An error ocurred trying to log in, please try it again.");
-                alert.initOwner(stage);
-                alert.initModality(Modality.WINDOW_MODAL);
-                alert.showAndWait();
-                event.consume();
-            }
+                logOutController.initStage(root,client,user);
+           
+               
+           
         } catch (LoginNotFoundException e) {
-            throw new LoginNotFoundException(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("LogIn Error");
+                alert.setContentText("User does not exist");
+                alert.showAndWait();
+                
 
         } catch (WrongPasswordException e) {
             throw new WrongPasswordException(e.getMessage());
@@ -217,8 +215,9 @@ public class LoginWindowController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/SignUp_Window.fxml"));
         Parent root = (Parent) loader.load();
         SignUpWindowController signUpController = ((SignUpWindowController) loader.getController());
+        //stage = new Stage();
         signUpController.setStage(stage);
-        signUpController.initStage(root);
+        signUpController.initStage(root,client);
     }
 
 }

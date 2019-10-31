@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bopMainWin" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bopMainWin" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.LogOutWindowController">
    <bottom>
       <HBox fx:id="hbStatBar" prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>

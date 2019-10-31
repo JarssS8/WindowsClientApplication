@@ -5,12 +5,13 @@
  */
 package windowsclientapplication;
 
+import clientlogic.logic.ConnectableClientFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import windowsclientapplication.controller.LoginWindowController;
+import utilities.interfaces.Connectable;
+import windowsclientapplication.controller.*;
 
 /**
  *
@@ -20,11 +21,21 @@ public class WindowsClientApplication extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("view/LogIn_Window.fxml"));
-        Parent root = (Parent)loader.load();
-        LoginWindowController logInController= ((LoginWindowController)loader.getController());
-        logInController.setStage(stage);
-        logInController.initStage(root);
+        Connectable client = ConnectableClientFactory.getClient();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/LogIn_Window.fxml"));
+        Parent root =(Parent)loader.load();
+        LoginWindowController controller = loader.getController();
+
+        controller.setStage(stage);
+        controller.initStage(root,client);
+        /*
+         Parent root = FXMLLoader.load(getClass().getResource("view/SignUp_Window.fxml"));
+        
+        Scene scene = new Scene(root);
+        
+        stage.setScene(scene);
+        stage.show();
+        */
     }
 
     /**
