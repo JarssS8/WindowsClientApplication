@@ -5,7 +5,6 @@
  */
 package windowsclientapplication.controller;
 
-import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
 import java.util.Optional;
 import javafx.application.Platform;
@@ -18,13 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import static utilities.beans.Message.LOGIN_MESSAGE;
 import utilities.beans.User;
 import utilities.exception.DBException;
 import utilities.exception.LogicException;
@@ -34,7 +31,7 @@ import utilities.interfaces.Connectable;
 import windowsclientapplication.exception.WindowsProjectException;
 
 /**
- *
+ * Controller of the view LogIn
  * @author Adrian
  */
 public class LoginWindowController {
@@ -62,6 +59,11 @@ public class LoginWindowController {
      */
     @FXML
     private PasswordField txtPassword;
+    
+    /**
+     * Declaration of the connectable client that we got from the factory
+     */
+    private Connectable client;
 
     /**
      * @return Return the stage of this class
@@ -83,8 +85,10 @@ public class LoginWindowController {
      * window
      *
      * @param root The parent object
+     * @param client
      */
-    public void initStage(Parent root) {
+    public void initStage(Parent root,Connectable client) {
+        this.client=client;
         Scene scene = new Scene(root);
 
         //Stage Properties
@@ -112,11 +116,14 @@ public class LoginWindowController {
         btLogin.setDisable(true);
 
     }
-    
+
     /**
-     * This method is used if the user try to close the application clicking 
-     * in the red cross(right-top in the stage) and control if the user are sure to close the application
-     * @param event The event is the user trying to close the application with the cross of the stage
+     * This method is used if the user try to close the application clicking in
+     * the red cross(right-top in the stage) and control if the user are sure to
+     * close the application
+     *
+     * @param event The event is the user trying to close the application with
+     * the cross of the stage
      */
     public void closeRequest(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -153,6 +160,7 @@ public class LoginWindowController {
         } else {
             btLogin.setDisable(true);
         }
+
     }
 
     /**
@@ -172,26 +180,18 @@ public class LoginWindowController {
             User user = new User();
             user.setLogin(txtUsername.getText().trim());
             user.setPassword(txtPassword.getText().trim());
-            Connectable client = ConnectableClientFactory.getClient();
             user = client.logIn(user);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
+            Parent root = (Parent) loader.load();
+            LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
+            logOutController.setStage(stage);
+            logOutController.initStage(root, (Connectable) client, user);
 
-            if (client.getMessage().equals(LOGIN_MESSAGE)) {//User exists on DataBase
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
-                Parent root = (Parent) loader.load();
-                LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
-                logOutController.setStage(stage);
-                logOutController.initStage(root, user);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("LogIn Error");
-                alert.setContentText("An error ocurred trying to log in, please try it again.");
-                alert.initOwner(stage);
-                alert.initModality(Modality.WINDOW_MODAL);
-                alert.showAndWait();
-                event.consume();
-            }
         } catch (LoginNotFoundException e) {
-            throw new LoginNotFoundException(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("LogIn Error");
+            alert.setContentText("An error ocurred trying to log in, please try it again.");
+            alert.showAndWait();
 
         } catch (WrongPasswordException e) {
             throw new WrongPasswordException(e.getMessage());
