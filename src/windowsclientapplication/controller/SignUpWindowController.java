@@ -7,6 +7,9 @@ package windowsclientapplication.controller;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,13 +74,15 @@ public class SignUpWindowController {
     private Label lbPasswordCaution2B;
     @FXML
     private Label lbPasswordCaution3;
+    @FXML
+    private Label lbFullNameCaution;
     
      private Stage stage;
     public void setStage(Stage stage) {
         this.stage=stage;
     }
     
-    Connectable client;
+    private Connectable client;
     
     public void initStage(Parent root, Connectable client){
         Scene scene = new Scene(root);
@@ -86,16 +91,18 @@ public class SignUpWindowController {
         stage.setTitle("Registration");
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
-        stage.initModality(Modality.APPLICATION_MODAL);
+        //stage.initModality(Modality.APPLICATION_MODAL);
         btBack.setOnAction(this::handleButtonAction);
         btSignUp.setOnAction(this::handleButtonAction);
-        txtUsername.textProperty().addListener(this::handleTextChange);
-        txtPassword.textProperty().addListener(this::handleTextChange);
-        txtRepeatPassword.textProperty().addListener(this::handleTextChange);
-        txtEmail.textProperty().addListener(this::handleTextChange);
+        txtUsername.focusedProperty().addListener(this::focusChanged);
+        txtPassword.focusedProperty().addListener(this::focusChanged);
+        txtRepeatPassword.focusedProperty().addListener(this::focusChanged);
+        txtEmail.focusedProperty().addListener(this::focusChanged);
         stage.setOnCloseRequest(this::handleCloseAction);
+        btSignUp.setDisable(true);
         stage.show();
     }
+    
     /**
      * A method that prepare the window events
      * @param event 
@@ -107,7 +114,7 @@ public class SignUpWindowController {
         txtPassword.setPromptText("Introduce password");
         txtRepeatPassword.setPromptText("Repeat password");
         txtFullName.setPromptText("Introduce full name");
-        btSignUp.setDisable(true);
+        
     }
     private void handleCloseAction(WindowEvent event) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -131,7 +138,7 @@ public class SignUpWindowController {
         
         if(event.getSource().equals(btBack)){
            LOGGER.info("Closing the window");
-           Alert alert = new Alert(AlertType.CONFIRMATION);
+            Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Close confirmation");
             alert.setHeaderText("You pressed the 'Close' button.");
             alert.setContentText("Are you sure?");
@@ -146,25 +153,30 @@ public class SignUpWindowController {
             try{ 
                 LOGGER.info("Creating new user...");
                 User user= new User();
-                user.setLogin(txtUsername.getText().trim().substring(0,9));
-                user.setPassword(txtPassword.getText().trim().substring(0, 13));
-                user.setEmail(txtEmail.getText().trim().substring(0, 69));
-                user.setFullName(txtFullName.getText().trim().substring(0, 44));
-           
+                user.setLogin(txtUsername.getText().trim());
+                user.setPassword(txtPassword.getText().trim());
+                user.setEmail(txtEmail.getText().trim());
+                user.setFullName(txtFullName.getText().trim());
+                user.setLastAccess(Timestamp.valueOf(LocalDateTime.now()));
+                user.setLastPasswordChange(Timestamp.valueOf(LocalDateTime.now()));
+                user.setPrivilege(1);
+                user.setStatus(1);
                 LOGGER.info("Sending the user...");
-                try {
-                    client.signUp(user);
-                } catch (DBException ex) {
-                    Logger.getLogger(SignUpWindowController.class.getName())
-                        .log(Level.SEVERE, null, ex);
-                }
-                LOGGER.info("User send");
+                
+                client.signUp(user);
+                
+                LOGGER.info("User sent");
+                
+                
             } catch (LoginAlreadyTakenException ex) {
-                Logger.getLogger(SignUpWindowController.class.getName())
-            .log(Level.SEVERE, null, ex);
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("SignUp Error");
+               alert.setContentText("Username already exist");
+               alert.showAndWait();
             } catch (LogicException ex) {
-                Logger.getLogger(SignUpWindowController.class.getName())
-            .log(Level.SEVERE, null, ex);
+                
+            } catch (DBException ex) {
+                
             }
         }
         
@@ -235,90 +247,115 @@ public class SignUpWindowController {
      * @param oldValue
      * @param newValue 
     */
-    private void handleTextChange (ObservableValue observable,String oldValue,
-        String newValue){
+    private void focusChanged (ObservableValue observable,Boolean oldValue,
+        Boolean newValue){
+            boolean passCheck = checkPassword(txtPassword.getText().trim());
+            boolean passCheckRepeat = checkPassRepeat(txtPassword.getText()
+                .trim(),txtRepeatPassword.getText().trim());
+            boolean emailCheck = checkEmail(txtEmail.getText().trim());
         
-        boolean passCheck = checkPassword(txtPassword.getText().trim());
-        boolean passCheckRepeat = checkPassRepeat(txtPassword.getText().trim()
-            ,txtRepeatPassword.getText().trim());
-        boolean emailCheck = checkEmail(txtEmail.getText().trim());
-        
-        boolean username = false;
-        boolean passwordlength = false;
-        boolean passwordCheck = false;
-        boolean passwordRepeat = false;
-        boolean email = false;
-        
-        if(txtUsername.getText().trim().length()>3 && 
-            txtUsername.getText().trim().length()<11){
+            boolean username = false;
+            boolean passwordlength = false;
+            boolean passwordCheck = false;
+            boolean passwordRepeat = false;
+            boolean email = false;
+            boolean fullname = false;
+        if(newValue){
+                   
             
-            username= true;
-            lbUsernameCaution.setTextFill(Paint.valueOf("BLACK"));
-    
-        }else{
-            btSignUp.setDisable(true);
-            lbUsernameCaution.setTextFill(Paint.valueOf("RED")); 
+        }else if(oldValue){
             
-        }
-        
-        if(txtPassword.getText().trim().length()>7 && 
-            txtPassword.getText().trim().length()<15){
-            
-            passwordlength=true;
-            lbPasswordCaution1.setTextFill(Paint.valueOf("BLACK"));
-                
-        }else{
-            
-            btSignUp.setDisable(true);
-            lbPasswordCaution1.setTextFill(Paint.valueOf("RED"));
-            lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
-                
-        }
-        
-        if(passCheck){
-            
-            passwordCheck=true;
-            lbPasswordCaution2A.setTextFill(Paint.valueOf("BLACK"));    
-            lbPasswordCaution2B.setTextFill(Paint.valueOf("BLACK")); 
-                    
-        }else{
-            
-            btSignUp.setDisable(true);
-            lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
-            lbPasswordCaution2B.setTextFill(Paint.valueOf("RED"));
-            lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
-                    
-        } 
-        
-        if(passCheckRepeat){
-            
-            passwordRepeat=true;
-            lbPasswordCaution3.setTextFill(Paint.valueOf("BLACK"));
-                    
-        }else{
-            
-            btSignUp.setDisable(true);
-            lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
-                        
-        }  
-        
-        if(emailCheck){
-            
-            email=true;
-            lbEmailCaution.setTextFill(Paint.valueOf("BLACK"));
-                    
-        }else{
-            
-            btSignUp.setDisable(true);
-            lbEmailCaution.setTextFill(Paint.valueOf("RED"));
-                    
-        }
-        if(username && passwordlength && passwordRepeat && passwordCheck 
-            && email){
-            
-            btSignUp.setDisable(false);
+                if(txtUsername.getText().trim().length()>3 && 
+                txtUsername.getText().trim().length()<11){
 
+                username= true;
+                lbUsernameCaution.setTextFill(Paint.valueOf("BLACK"));
+
+            }else{
+                btSignUp.setDisable(true);
+                lbUsernameCaution.setTextFill(Paint.valueOf("RED")); 
+
+            }
+            
+            
+            
+                if(txtPassword.getText().trim().length()>7 && 
+                txtPassword.getText().trim().length()<15){
+
+                passwordlength=true;
+                lbPasswordCaution1.setTextFill(Paint.valueOf("BLACK"));
+
+                }else{
+
+                btSignUp.setDisable(true);
+                lbPasswordCaution1.setTextFill(Paint.valueOf("RED"));
+                lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
+
+                }
+            
+            
+            
+                if(passCheck){
+
+                passwordCheck=true;
+                lbPasswordCaution2A.setTextFill(Paint.valueOf("BLACK"));    
+                lbPasswordCaution2B.setTextFill(Paint.valueOf("BLACK")); 
+
+            }else{
+
+                btSignUp.setDisable(true);
+                lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
+                lbPasswordCaution2B.setTextFill(Paint.valueOf("RED"));
+                lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
+
+            } 
+            
+            
+            
+                if(passCheckRepeat){
+
+                passwordRepeat=true;
+                lbPasswordCaution3.setTextFill(Paint.valueOf("BLACK"));
+
+            }else{
+
+                btSignUp.setDisable(true);
+                lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
+
+            }  
+            
+            
+            
+                if(emailCheck){
+
+                email=true;
+                lbEmailCaution.setTextFill(Paint.valueOf("BLACK"));
+
+            }else{
+
+                btSignUp.setDisable(true);
+                lbEmailCaution.setTextFill(Paint.valueOf("RED"));
+
+            }
+            
+            if(txtFullName.getText().trim().length()<44 
+                || txtFullName.getText().isEmpty()){
+                fullname = true;
+                lbFullNameCaution.setTextFill(Paint.valueOf("BLACK"));
+            }else{
+                btSignUp.setDisable(true);
+                lbFullNameCaution.setTextFill(Paint.valueOf("RED"));
+            }
+            
+            
+            if(username && passwordlength && passwordRepeat && passwordCheck 
+                && email && fullname){
+
+                btSignUp.setDisable(false);
+
+            }
         }
+        
         
        
     }

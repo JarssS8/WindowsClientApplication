@@ -24,13 +24,11 @@ public class WindowsClientApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Connectable client = ConnectableClientFactory.getClient();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/LogIn_Window.fxml"));
-        Parent root =(Parent)loader.load();
-        
-        SignUpWindowController controller =((SignUpWindowController)loader.getController());
-
-        controller.setStage(stage);
-        controller.initStage(root,client);
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("/windowsclientapplication/view/LogIn_Window.fxml"));
+        Parent root = (Parent)loader.load();
+        LoginWindowController logInController= ((LoginWindowController)loader.getController());
+        logInController.setStage(stage);
+        logInController.initStage(root,client);
     }
 
     /**
