@@ -76,7 +76,9 @@ public class SignUpWindowController {
     public void setStage(Stage stage) {
         this.stage=stage;
     }
+    
     Connectable client;
+    
     public void initStage(Parent root, Connectable client){
         Scene scene = new Scene(root);
         this.client=client;
@@ -84,10 +86,9 @@ public class SignUpWindowController {
         stage.setTitle("Registration");
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
-        //stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         btBack.setOnAction(this::handleButtonAction);
         btSignUp.setOnAction(this::handleButtonAction);
-        //txtUsername.focusedProperty().addListener(this::focuschanged);
         txtUsername.textProperty().addListener(this::handleTextChange);
         txtPassword.textProperty().addListener(this::handleTextChange);
         txtRepeatPassword.textProperty().addListener(this::handleTextChange);
@@ -178,9 +179,7 @@ public class SignUpWindowController {
      */
     private boolean checkEmail(String email){
         boolean check = false;
-        LOGGER.info("Checking the email...");
         check = Util.validarEmail(email);
-        LOGGER.info("Email checked");        
         return check;
     }
     /**
@@ -194,11 +193,11 @@ public class SignUpWindowController {
     
     private boolean checkPassRepeat(String password,String passwordRepeat){
         boolean checkRepeat=false;
-        LOGGER.info("Checking if the passwords are the same ");
+       
         if(password.equalsIgnoreCase(passwordRepeat)){
             checkRepeat=true;
         }
-        LOGGER.info("Passwords checked");
+        
         return checkRepeat;
     }
     /**
@@ -213,8 +212,7 @@ public class SignUpWindowController {
         boolean number = false;
         boolean check = false;
            
-        
-        LOGGER.info("Checking the password...");
+     
         for(int i=0;i<password.length();i++){
             char ch = password.charAt(i);
             if(Character.isDigit(ch)){
@@ -224,7 +222,7 @@ public class SignUpWindowController {
                 capital=true;
             }
         }
-        LOGGER.info("Password checked");
+       
         if(capital && number){
             check=true;
         }
@@ -240,7 +238,6 @@ public class SignUpWindowController {
     private void handleTextChange (ObservableValue observable,String oldValue,
         String newValue){
         
-        LOGGER.info("Calling the methods that validate the text fields");
         boolean passCheck = checkPassword(txtPassword.getText().trim());
         boolean passCheckRepeat = checkPassRepeat(txtPassword.getText().trim()
             ,txtRepeatPassword.getText().trim());
@@ -307,7 +304,7 @@ public class SignUpWindowController {
         
         if(emailCheck){
             
-            emailCheck=true;
+            email=true;
             lbEmailCaution.setTextFill(Paint.valueOf("BLACK"));
                     
         }else{
@@ -317,7 +314,7 @@ public class SignUpWindowController {
                     
         }
         if(username && passwordlength && passwordRepeat && passwordCheck 
-            && emailCheck){
+            && email){
             
             btSignUp.setDisable(false);
 
