@@ -5,7 +5,6 @@
  */
 package windowsclientapplication.controller;
 
-import clientlogic.logic.Client;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utilities.beans.User;
+import utilities.exception.DBException;
 import utilities.exception.LogicException;
 import utilities.interfaces.Connectable;
 
@@ -106,7 +106,9 @@ public class LogOutWindowController {
                 LOGGER.info("User loggin date updated sucesfully");
                 Platform.exit();
             } catch (LogicException ex) {
-            LOGGER.severe("Problems updating the Log In date on close");
+                LOGGER.severe("Problems updating the Log In date on close");
+            } catch (DBException ex) {
+                LOGGER.severe("Problems connecting with server.");
             }
         }
         else
@@ -132,6 +134,8 @@ public class LogOutWindowController {
                 stage.close();
             } catch (LogicException ex) {
             LOGGER.severe("Problems updating the Log In date on logout");
+            }catch (DBException ex) {
+                LOGGER.severe("Problems connecting with server.");
             }
         }
         else
