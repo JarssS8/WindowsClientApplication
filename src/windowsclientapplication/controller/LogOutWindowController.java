@@ -93,7 +93,7 @@ public class LogOutWindowController {
      * close alert
      * @param event 
      */
-   private void handleCloseAction(ActionEvent event) {
+   public void handleCloseAction(ActionEvent event) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Close confirmation");
         alert.setHeaderText("You pressed the 'Close' button.");
@@ -120,7 +120,7 @@ public class LogOutWindowController {
     * log out alert
     * @param event 
     */
-   private void handleLogOutAction(ActionEvent event){
+   public void handleLogOutAction(ActionEvent event){
        Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("LogOut confirmation");
         alert.setHeaderText("You pressed the 'LogOut' button.");
@@ -146,7 +146,7 @@ public class LogOutWindowController {
     * Method that handle the about/help option of the menu bar
     * @param event 
     */
-   private void handleAboutAction(ActionEvent event) {
+   public void handleAboutAction(ActionEvent event) {
        //TODO Opens the help window
        
    }
@@ -155,14 +155,17 @@ public class LogOutWindowController {
      * Method that loads the texts and prepare the objects of the window
      * @param event
      */
-    private void onWindowShowing(WindowEvent event){
+    public void onWindowShowing(WindowEvent event){
         String auxName=user.getFullName();
+        int nameSpace = auxName.indexOf(" ");
         LOGGER.info("Starting loading the labels");
         lblUser.setText(auxName);
         lblLastConn.setText(user.getLastAccess().toString());   
         lblEmail.setText(user.getEmail());
         lblLastPass.setText(user.getLastPasswordChange().toString());
-        lblStatusUser.setText(auxName.substring(0, auxName.indexOf(" ")));
+        if(nameSpace != -1 && nameSpace != 0)
+            auxName = auxName.substring(0, nameSpace);
+        lblStatusUser.setText(auxName);
         lblStatusLastConn.setText(user.getLastAccess().toString());           
     }
 

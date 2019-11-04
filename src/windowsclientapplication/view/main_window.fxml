@@ -37,12 +37,12 @@
         <menus>
           <Menu fx:id="menOpt" mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem fx:id="mbClose" mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="mbClose" onAction="#handleCloseAction" mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
           <Menu fx:id="menHel" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="mbAbout" mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="mbAbout" onAction="#handleAboutAction" mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
@@ -58,8 +58,6 @@
             </Label>
             <Label layoutX="36.0" layoutY="62.0" text="Your last connection : " />
             <Label fx:id="lblLastConn" layoutX="178.0" layoutY="62.0" text="&lt;last conn. date&gt;" />
-            <Label layoutX="612.0" layoutY="519.0" text="Account type:" />
-            <Label fx:id="lblAccount" layoutX="693.0" layoutY="519.0" text="&lt;account priv.&gt;" />
             <Label layoutX="36.0" layoutY="289.0" text="Last date you changed your password:" />
             <Label fx:id="lblLastPass" layoutX="271.0" layoutY="289.0" text="&lt;last pass. date&gt;" />
             <Label layoutX="36.0" layoutY="140.0" text="E-mail : " />
