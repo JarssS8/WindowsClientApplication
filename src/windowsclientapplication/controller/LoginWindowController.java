@@ -5,9 +5,10 @@
  */
 package windowsclientapplication.controller;
 
-import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -18,20 +19,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import static utilities.beans.Message.LOGIN_MESSAGE;
 import utilities.beans.User;
-import utilities.exception.DBException;
-import utilities.exception.LogicException;
 import utilities.exception.LoginNotFoundException;
+import utilities.exception.ServerConnectionErrorException;
 import utilities.exception.WrongPasswordException;
 import utilities.interfaces.Connectable;
-import windowsclientapplication.exception.WindowsProjectException;
 
 /**
  *
@@ -64,6 +61,8 @@ public class LoginWindowController {
     private PasswordField txtPassword;
     
     private Connectable client;
+    
+    private static final Logger LOGGER=Logger.getLogger("WindowsClientApplication.controller.LoginWindowController");
 
     /**
      * @return Return the stage of this class
@@ -164,12 +163,9 @@ public class LoginWindowController {
      *
      * @param event The event is the user clicking on the login button
      * @throws utilities.exception.LoginNotFoundException
-     * @throws utilities.exception.DBException
      * @throws utilities.exception.WrongPasswordException
-     * @throws utilities.exception.LogicException
-     * @throws windowsclientapplication.exception.WindowsProjectException
      */
-    public void loginClick(ActionEvent event) throws LoginNotFoundException, DBException, WrongPasswordException, LogicException, WindowsProjectException {
+    public void loginClick(ActionEvent event) throws LoginNotFoundException, WrongPasswordException {
         try {
             User user = new User();
             user.setLogin(txtUsername.getText().trim());
@@ -186,21 +182,18 @@ public class LoginWindowController {
            
         } catch (LoginNotFoundException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("LogIn Error");
-                alert.setContentText("User does not exist");
-                alert.showAndWait();
-                
-
+            alert.setTitle("LogIn Error");
+            alert.setContentText("User does not exist");
+            alert.showAndWait();
         } catch (WrongPasswordException e) {
-            throw new WrongPasswordException(e.getMessage());
-
-        } catch (LogicException e) {
-            throw new LogicException(e.getMessage());
-
-        } catch (DBException e) {
-            throw new DBException(e.getMessage());
-        } catch (IOException e) {
-            throw new WindowsProjectException(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Password Error");
+            alert.setContentText("Password does not exist");
+            alert.showAndWait(); 
+        } catch (ServerConnectionErrorException ex) {
+            LOGGER.warning("Error connecting with server");
+        } catch (Exception ex) {
+            LOGGER.warning("HAY QUE PONER UN MENSAJE");
         }
     }
 

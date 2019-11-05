@@ -26,6 +26,7 @@ import javafx.stage.WindowEvent;
 import utilities.beans.User;
 import utilities.exception.DBException;
 import utilities.exception.LogicException;
+import utilities.exception.ServerConnectionErrorException;
 import utilities.interfaces.Connectable;
 
 /**
@@ -79,7 +80,7 @@ public class LogOutWindowController {
             mbClose.setOnAction(this::handleCloseAction);
             mbAbout.setOnAction(this::handleAboutAction);
             hlLogOut.setOnAction(this::handleLogOutAction);
-            stage.showAndWait();
+            stage.show();
         }
         catch(Exception e){
             LOGGER.severe("Can not initialize the main window");
@@ -93,7 +94,7 @@ public class LogOutWindowController {
      * close alert
      * @param event 
      */
-   private void handleCloseAction(ActionEvent event) {
+   public void handleCloseAction(ActionEvent event) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Close confirmation");
         alert.setHeaderText("You pressed the 'Close' button.");
@@ -105,10 +106,8 @@ public class LogOutWindowController {
                 client.logOut(user);
                 LOGGER.info("User loggin date updated sucesfully");
                 Platform.exit();
-            } catch (LogicException ex) {
-                LOGGER.severe("Problems updating the Log In date on close");
-            } catch (DBException ex) {
-                LOGGER.severe("Problems connecting to the server");
+            } catch (ServerConnectionErrorException ex) {
+                LOGGER.warning("HAY QUE PONER UN MENSAJE");
             }
         }
         else
@@ -120,7 +119,7 @@ public class LogOutWindowController {
     * log out alert
     * @param event 
     */
-   private void handleLogOutAction(ActionEvent event){
+   public void handleLogOutAction(ActionEvent event){
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("LogOut confirmation");
         alert.setHeaderText("You pressed the 'LogOut' button.");
@@ -132,10 +131,8 @@ public class LogOutWindowController {
                 client.logOut(user);
                 LOGGER.info("User loggin date updated sucesfully");
                 stage.close();
-            } catch (LogicException ex) {
-                LOGGER.severe("Problems updating the Log In date on logout");
-            } catch (DBException ex) {
-                LOGGER.severe("Problems connecting to the server");
+            } catch (ServerConnectionErrorException ex) {
+                LOGGER.warning("HAY QUE PONER UN MENSAJE");
             }
         }
         else
@@ -146,7 +143,7 @@ public class LogOutWindowController {
     * Method that handle the about/help option of the menu bar
     * @param event 
     */
-   private void handleAboutAction(ActionEvent event) {
+   public void handleAboutAction(ActionEvent event) {
        //TODO Opens the help window
        
    }
@@ -155,14 +152,14 @@ public class LogOutWindowController {
      * Method that loads the texts and prepare the objects of the window
      * @param event
      */
-    private void onWindowShowing(WindowEvent event){
+    public void onWindowShowing(WindowEvent event){
         String auxName=user.getFullName();
         LOGGER.info("Starting loading the labels");
         lblUser.setText(auxName);
         lblLastConn.setText(user.getLastAccess().toString());   
         lblEmail.setText(user.getEmail());
         lblLastPass.setText(user.getLastPasswordChange().toString());
-        lblStatusUser.setText(auxName.substring(0, auxName.indexOf(" ")));
+        //lblStatusUser.setText(auxName.substring(0, auxName.indexOf(" ")));
         lblStatusLastConn.setText(user.getLastAccess().toString());           
     }
 

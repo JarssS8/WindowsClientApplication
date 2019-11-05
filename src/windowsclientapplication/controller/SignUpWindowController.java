@@ -5,18 +5,11 @@
  */
 package windowsclientapplication.controller;
 
-import java.awt.Color;
-import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,15 +18,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utilities.beans.User;
-import utilities.exception.DBException;
-import utilities.exception.LogicException;
 import utilities.exception.LoginAlreadyTakenException;
+import utilities.exception.ServerConnectionErrorException;
 import utilities.interfaces.Connectable;
 import utilities.util.Util;
 
@@ -136,7 +126,7 @@ public class SignUpWindowController {
            Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Close confirmation");
             alert.setHeaderText("You pressed the 'Close' button.");
-            alert.setContentText("Are you sure?");
+            alert.setContentText("Are you sure you want to exit?");
             alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == ButtonType.YES){
@@ -153,28 +143,23 @@ public class SignUpWindowController {
                 user.setEmail(txtEmail.getText().trim().substring(0, 69));
                 user.setFullName(txtFullName.getText().trim().substring(0, 44));
            
-                LOGGER.info("Sending the user...");
-                try {
-                    client.signUp(user);
-                } catch (DBException ex) {
-                    Logger.getLogger(SignUpWindowController.class.getName())
-                        .log(Level.SEVERE, null, ex);
-                }
+                LOGGER.info("Sending the user...");                
+                client.signUp(user);                               
                 LOGGER.info("User send");
+                
             } catch (LoginAlreadyTakenException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("SignUp Error");
                 alert.setContentText("Username already exists");
+                alert.showAndWait();       
+            } catch (ServerConnectionErrorException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Server Error");
+                alert.setContentText("Unable to connect with server");
                 alert.showAndWait();
-                
-            } catch (LogicException ex) {
-                Logger.getLogger(SignUpWindowController.class.getName())
-            .log(Level.SEVERE, null, ex);
             }
         }
-        
-        
-        
+      
     }
     /**
      * A method that validates the pattern of the email
