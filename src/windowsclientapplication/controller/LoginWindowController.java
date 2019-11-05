@@ -77,7 +77,7 @@ public class LoginWindowController {
         this.stage = stage;
     }
     
-    private Connectable client;
+    
     /**
      * This method initialize the window and everything thats the stage needs.
      * This calls other method when shows the window to set attributes of the
@@ -85,9 +85,8 @@ public class LoginWindowController {
      *
      * @param root The parent object
      */
-    public void initStage(Parent root, Connectable client) {
+    public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        this.client=client;
         //Stage Properties
         stage.setScene(scene);
         stage.setTitle("LogIn");
@@ -219,6 +218,6 @@ public class LoginWindowController {
         Parent root = (Parent) loader.load();
         SignUpWindowController signUpController = ((SignUpWindowController) loader.getController());
         signUpController.setStage(stage);
-        signUpController.initStage(root,client);
+        signUpController.initStage(root);
     }
 }

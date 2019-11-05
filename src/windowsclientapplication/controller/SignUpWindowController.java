@@ -5,6 +5,7 @@
  */
 package windowsclientapplication.controller;
 
+import clientlogic.logic.ConnectableClientFactory;
 import java.awt.Color;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -82,11 +83,10 @@ public class SignUpWindowController {
         this.stage=stage;
     }
     
-    private Connectable client;
+
     
-    public void initStage(Parent root, Connectable client){
+    public void initStage(Parent root){
         Scene scene = new Scene(root);
-        this.client=client;
         stage.setScene(scene);
         stage.setTitle("Registration");
         stage.setResizable(false);
@@ -151,6 +151,7 @@ public class SignUpWindowController {
             }
         }if(event.getSource().equals(btSignUp)){
             try{ 
+                Connectable client = ConnectableClientFactory.getClient();
                 LOGGER.info("Creating new user...");
                 User user= new User();
                 user.setLogin(txtUsername.getText().trim());
