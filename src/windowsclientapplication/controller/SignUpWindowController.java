@@ -38,6 +38,7 @@ import utilities.beans.User;
 import utilities.exception.DBException;
 import utilities.exception.LogicException;
 import utilities.exception.LoginAlreadyTakenException;
+import utilities.exception.ServerConnectionErrorException;
 import utilities.interfaces.Connectable;
 import utilities.util.Util;
 
@@ -174,10 +175,8 @@ public class SignUpWindowController {
                alert.setTitle("SignUp Error");
                alert.setContentText("Username already exist");
                alert.showAndWait();
-            } catch (LogicException ex) {
-                
-            } catch (DBException ex) {
-                
+            } catch (ServerConnectionErrorException ex) {
+                Logger.getLogger(SignUpWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -288,9 +287,7 @@ public class SignUpWindowController {
                 lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
 
                 }
-            
-            
-            
+
                 if(passCheck){
 
                 passwordCheck=true;
@@ -305,6 +302,7 @@ public class SignUpWindowController {
                 lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
 
             } 
+                
             if(passCheckRepeat){
 
                 passwordRepeat=true;
@@ -327,8 +325,7 @@ public class SignUpWindowController {
                 lbEmailCaution.setTextFill(Paint.valueOf("RED"));
 
             }
-              if(txtFullName.getText().trim().length()<44 
-                && txtFullName.getText().trim().length()<0){
+              if(txtFullName.getText().trim().length()<44){
                 fullname = true;
                 lbFullNameCaution.setTextFill(Paint.valueOf("BLACK"));
             }else{

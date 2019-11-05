@@ -9,6 +9,8 @@ import clientlogic.logic.Client;
 import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -30,6 +32,7 @@ import utilities.beans.User;
 import utilities.exception.DBException;
 import utilities.exception.LogicException;
 import utilities.exception.LoginNotFoundException;
+import utilities.exception.ServerConnectionErrorException;
 import utilities.exception.WrongPasswordException;
 import utilities.interfaces.Connectable;
 import windowsclientapplication.exception.WindowsProjectException;  
@@ -196,14 +199,12 @@ public class LoginWindowController {
         } catch (WrongPasswordException e) {
             throw new WrongPasswordException(e.getMessage());
 
-        } catch (LogicException e) {
-            throw new LogicException(e.getMessage());
 
-        } catch (DBException e) {
-            throw new DBException(e.getMessage());
         } catch (IOException e) {
             throw new WindowsProjectException(e.getMessage());
-        }
+        } catch (ServerConnectionErrorException ex) {
+            Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     /**
