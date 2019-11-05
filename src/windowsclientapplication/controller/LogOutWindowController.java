@@ -5,6 +5,7 @@
  */
 package windowsclientapplication.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -133,7 +134,7 @@ public class LogOutWindowController {
                 LOGGER.info("User loggin date updated sucesfully");
                 stage.close();
             } catch (LogicException ex) {
-            LOGGER.severe("Problems updating the Log In date on logout");
+                LOGGER.severe("Problems updating the Log In date on logout");
             }catch (DBException ex) {
                 LOGGER.severe("Problems connecting with server.");
             }
@@ -147,7 +148,19 @@ public class LogOutWindowController {
     * @param event 
     */
    public void handleAboutAction(ActionEvent event) {
-       //TODO Opens the help window
+        try{
+            Runtime rTime = Runtime.getRuntime();
+            String url = "..\\help\\help.html";
+            String browser = "C:/Program Files/Internet Explorer/iexplore.exe";
+            Process pc = rTime.exec(browser+url);
+            pc.wait();
+        }catch(IOException e){
+            LOGGER.severe("Input / Output error");
+        }catch(InterruptedException e){
+            LOGGER.severe("Runtime interrupted");
+        }catch(Exception e){
+            LOGGER.severe("Error trying to load the help HTML");
+        }
        
    }
     
@@ -156,16 +169,12 @@ public class LogOutWindowController {
      * @param event
      */
     public void onWindowShowing(WindowEvent event){
-        String auxName=user.getFullName();
-        int nameSpace = auxName.indexOf(" ");
         LOGGER.info("Starting loading the labels");
-        lblUser.setText(auxName);
+        lblUser.setText(user.getFullName());
         lblLastConn.setText(user.getLastAccess().toString());   
         lblEmail.setText(user.getEmail());
         lblLastPass.setText(user.getLastPasswordChange().toString());
-        if(nameSpace != -1 && nameSpace != 0)
-            auxName = auxName.substring(0, nameSpace);
-        lblStatusUser.setText(auxName);
+        lblStatusUser.setText(user.getLogin());
         lblStatusLastConn.setText(user.getLastAccess().toString());           
     }
 
