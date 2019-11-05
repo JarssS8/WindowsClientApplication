@@ -5,9 +5,8 @@
  */
 package windowsclientapplication.controller;
 
-import clientlogic.logic.Client;
+import clientlogic.logic.ConnectableClientFactory;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -24,8 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utilities.beans.User;
-import utilities.exception.DBException;
-import utilities.exception.LogicException;
 import utilities.exception.ServerConnectionErrorException;
 import utilities.interfaces.Connectable;
 
@@ -56,19 +53,17 @@ public class LogOutWindowController {
     @FXML
     private Label lblStatusLastConn;
     
-    private Stage stage;
-    private Connectable client=null;
+    private Stage stage= null;
+    private Connectable client = ConnectableClientFactory.getClient();
     private User user=null;
     
     /**
      * Method to initialize the window
-     * @param root 
-     * @param client 
+     * @param root  
      * @param user 
      */
-    public void initStage (Parent root,Connectable client,User user){
+    public void initStage (Parent root,User user){
         try{
-            this.client = client;
             this.user = user;
             Scene scene = new Scene(root);
             stage = new Stage();
@@ -83,7 +78,7 @@ public class LogOutWindowController {
             stage.show();
         }
         catch(Exception e){
-            LOGGER.severe("Can not initialize the main window");
+            LOGGER.severe("Can not initialize the main window"+e.getMessage());
         }
     }
     
@@ -107,7 +102,7 @@ public class LogOutWindowController {
                 LOGGER.info("User loggin date updated sucesfully");
                 Platform.exit();
             } catch (ServerConnectionErrorException ex) {
-                LOGGER.warning("HAY QUE PONER UN MENSAJE");
+                LOGGER.warning("Server connection error\n"+ex.getMessage());
             }
         }
         else

@@ -7,7 +7,6 @@ package windowsclientapplication.controller;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -172,11 +171,11 @@ public class LoginWindowController {
             user.setPassword(txtPassword.getText().trim());
             user = client.logIn(user);
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
-                Parent root = (Parent) loader.load();
-                LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
-                logOutController.setStage(stage);
-                logOutController.initStage(root,client,user);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
+            Parent root = (Parent) loader.load();
+            LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
+            logOutController.setStage(stage);
+            logOutController.initStage(root,user);
            
                
            
