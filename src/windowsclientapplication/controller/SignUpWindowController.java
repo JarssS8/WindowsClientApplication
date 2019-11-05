@@ -262,11 +262,9 @@ public class SignUpWindowController {
             boolean email = false;
             boolean fullname = false;
         if(newValue){
-                   
             
         }else if(oldValue){
-            
-                if(txtUsername.getText().trim().length()>3 && 
+            if(txtUsername.getText().trim().length()>3 && 
                 txtUsername.getText().trim().length()<11){
 
                 username= true;
@@ -277,10 +275,7 @@ public class SignUpWindowController {
                 lbUsernameCaution.setTextFill(Paint.valueOf("RED")); 
 
             }
-            
-            
-            
-                if(txtPassword.getText().trim().length()>7 && 
+            if(txtPassword.getText().trim().length()>7 && 
                 txtPassword.getText().trim().length()<15){
 
                 passwordlength=true;
@@ -310,10 +305,7 @@ public class SignUpWindowController {
                 lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
 
             } 
-            
-            
-            
-                if(passCheckRepeat){
+            if(passCheckRepeat){
 
                 passwordRepeat=true;
                 lbPasswordCaution3.setTextFill(Paint.valueOf("BLACK"));
@@ -324,10 +316,7 @@ public class SignUpWindowController {
                 lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
 
             }  
-            
-            
-            
-                if(emailCheck){
+             if(emailCheck){
 
                 email=true;
                 lbEmailCaution.setTextFill(Paint.valueOf("BLACK"));
@@ -338,9 +327,8 @@ public class SignUpWindowController {
                 lbEmailCaution.setTextFill(Paint.valueOf("RED"));
 
             }
-            
-            if(txtFullName.getText().trim().length()<44 
-                || txtFullName.getText().isEmpty()){
+              if(txtFullName.getText().trim().length()<44 
+                && txtFullName.getText().trim().length()<0){
                 fullname = true;
                 lbFullNameCaution.setTextFill(Paint.valueOf("BLACK"));
             }else{
