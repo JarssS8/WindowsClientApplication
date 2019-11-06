@@ -49,7 +49,6 @@ public class SignUpWindowControllerIT extends ApplicationTest {
 
     }
     
-    
     @Test
     public void testA_ErrorUsername() {
         clickOn("#linkClickHere");
