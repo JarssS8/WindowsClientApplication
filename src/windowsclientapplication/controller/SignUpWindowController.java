@@ -162,7 +162,8 @@ public class SignUpWindowController {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("User Sent");
                     alert.setHeaderText("Registration completed.");
-                    alert.getButtonTypes().setAll(ButtonType.YES);
+                    Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+                    okButton.setId("okbutton");
                     Optional<ButtonType> result = alert.showAndWait();
                     if(result.get() == ButtonType.YES){
                         
@@ -174,7 +175,8 @@ public class SignUpWindowController {
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("ERROR");
                     alert.setHeaderText("You have an error with the registration.");
-                    alert.getButtonTypes().setAll(ButtonType.YES);
+                    Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+                    errorButton.setId("errorbutton");
                     Optional<ButtonType> result = alert.showAndWait();
                     if(result.get() == ButtonType.YES){
                        alert.close();
@@ -186,12 +188,17 @@ public class SignUpWindowController {
                 
            
             }catch (LoginAlreadyTakenException ex) {
-               Logger.getLogger(SignUpWindowController.class.getName()).log(Level.SEVERE, null, ex);Alert alert = new Alert(Alert.AlertType.ERROR);
-               alert.setTitle("SignUp Error");
-               alert.setContentText("Username already exist");
-               alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("SignUp Error");
+                alert.setContentText("An error ocurred trying to sign up, "
+                    + "login arleady taken.");
+                alert.showAndWait();
             } catch (ServerConnectionErrorException ex) {
-                Logger.getLogger(SignUpWindowController.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("LogIn Error");
+                alert.setContentText("An error ocurred trying to sign up, "
+                    + "can not connect with the server.");
+                alert.showAndWait();
             }
             
         

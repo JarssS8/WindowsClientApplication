@@ -35,13 +35,15 @@ import utilities.exception.LoginNotFoundException;
 import utilities.exception.ServerConnectionErrorException;
 import utilities.exception.WrongPasswordException;
 import utilities.interfaces.Connectable;
-import windowsclientapplication.exception.WindowsProjectException;  
+import windowsclientapplication.exception.WindowsProjectException;
+
 /**
  *
  * @author adria
  */
 public class LoginWindowController {
-   /**
+
+    /**
      * The stage is used for instance an stage attribute and can store the stage
      * from other class or send the stage to other class
      */
@@ -57,14 +59,13 @@ public class LoginWindowController {
      * This is the text input by the user that define the username
      */
     @FXML
-    private TextField txtUsername;
+    private TextField txtLogin;
 
     /**
      * This is the text input by the user that define the password
      */
     @FXML
-    private PasswordField txtPassword;
-    
+    private PasswordField txtPass;
 
     /**
      * @return Return the stage of this class
@@ -79,8 +80,7 @@ public class LoginWindowController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-    
+
     /**
      * This method initialize the window and everything thats the stage needs.
      * This calls other method when shows the window to set attributes of the
@@ -98,8 +98,8 @@ public class LoginWindowController {
         stage.setOnCloseRequest(this::closeRequest);
 
         //Listeners
-        txtUsername.textProperty().addListener(this::textChange);
-        txtPassword.textProperty().addListener(this::textChange);
+        txtLogin.textProperty().addListener(this::textChange);
+        txtPass.textProperty().addListener(this::textChange);
 
         //Stage show
         stage.show();
@@ -115,11 +115,14 @@ public class LoginWindowController {
         btLogin.setDisable(true);
 
     }
-    
+
     /**
-     * This method is used if the user try to close the application clicking 
-     * in the red cross(right-top in the stage) and control if the user are sure to close the application
-     * @param event The event is the user trying to close the application with the cross of the stage
+     * This method is used if the user try to close the application clicking in
+     * the red cross(right-top in the stage) and control if the user are sure to
+     * close the application
+     *
+     * @param event The event is the user trying to close the application with
+     * the cross of the stage
      */
     public void closeRequest(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -145,9 +148,9 @@ public class LoginWindowController {
      */
     private void textChange(ObservableValue observable, String oldValue, String newValue) {
         //Check if user got the correct format
-        if (txtUsername.getText().trim().length() >= 4 && txtUsername.getText().trim().length() <= 10) {
+        if (txtLogin.getText().trim().length() >= 4 && txtLogin.getText().trim().length() <= 10) {
             //Check if password got the correct format
-            if (txtPassword.getText().trim().length() >= 8 && txtPassword.getText().trim().length() <= 14) {
+            if (txtPass.getText().trim().length() >= 8 && txtPass.getText().trim().length() <= 14) {
                 //Enables LogIn button
                 btLogin.setDisable(false);
             } else {
@@ -171,49 +174,52 @@ public class LoginWindowController {
      * @throws windowsclientapplication.exception.WindowsProjectException
      */
     public void loginClick(ActionEvent event) throws LoginNotFoundException, DBException, WrongPasswordException, LogicException, WindowsProjectException {
-       /* try {
+        try {
             User user = new User();
-            user.setLogin(txtUsername.getText().trim());
-            user.setPassword(txtPassword.getText().trim());
+            user.setLogin(txtLogin.getText().trim());
+            user.setPassword(txtPass.getText().trim());
             Connectable client = ConnectableClientFactory.getClient();
             user = client.logIn(user);
 
-            if (client.getMessage().equals(LOGIN_MESSAGE)) {//User exists on DataBase
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
-                Parent root = (Parent) loader.load();
-                LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
-                logOutController.setStage(stage);
-                logOutController.initStage(root, user);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("LogIn Error");
-                alert.setContentText("An error ocurred trying to log in, please try it again.");
-                alert.initOwner(stage);
-                alert.initModality(Modality.WINDOW_MODAL);
-                alert.showAndWait();
-                event.consume();
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/main_window.fxml"));
+            Parent root = (Parent) loader.load();
+            LogOutWindowController logOutController = ((LogOutWindowController) loader.getController());
+            logOutController.setStage(stage);
+            logOutController.initStage(root, user);
+
         } catch (LoginNotFoundException e) {
-            throw new LoginNotFoundException(e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("LogIn Error");
+            alert.setContentText("An error ocurred trying to log in, please try it again.");
+            alert.showAndWait();
 
         } catch (WrongPasswordException e) {
-            throw new WrongPasswordException(e.getMessage());
-
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("LogIn Error");
+            alert.setContentText("An error ocurred trying to log in, please try it again.");
+            alert.showAndWait();
+            
+        } catch (ServerConnectionErrorException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("LogIn Error");
+            alert.setContentText("An error ocurred trying to log in, please try it again.");
+            alert.showAndWait();
 
         } catch (IOException e) {
-            throw new WindowsProjectException(e.getMessage());
-        } catch (ServerConnectionErrorException ex) {
-            Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        } */
-    }
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("LogIn Error");
+            alert.setContentText("An error ocurred trying to log in, please try it again.");
+            alert.showAndWait();
 
-    /**
-     * This method opens the sign up window when the user clicks on the
-     * hyperlink click here
-     *
-     * @param event The event
-     * @throws IOException Error when can't access to the fxml view
-     */
+        }
+    }
+        /**
+         * This method opens the sign up window when the user clicks on the
+         * hyperlink click here
+         *
+         * @param event The event
+         * @throws IOException Error when can't access to the fxml view
+         */
     public void signUpClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/SignUp_Window.fxml"));
         Parent root = (Parent) loader.load();
