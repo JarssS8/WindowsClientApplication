@@ -76,10 +76,10 @@ public class LogOutWindowController {
             stage.setTitle("Welcome");
             stage.setResizable(false);
             stage.setOnShowing(this::onWindowShowing);
-            stage.setOnCloseRequest(this::handleCloseAction);
+            stage.setOnCloseRequest(this::handleCrossAction);
             mbClose.setOnAction(this::handleCloseAction);
             mbAbout.setOnAction(this::handleAboutAction);
-            hlLogOut.setOnAction(this::handleLogOutAction);
+            hlLogOut.setOnAction(this::handleCloseAction);
             stage.showAndWait();
         }
         catch(Exception e){
@@ -90,22 +90,38 @@ public class LogOutWindowController {
     
     
     /**
-     * Method that handle the close option of the menu bar / confirmation
+     * Method that handle the close option of the menu bar and logout
+     * hyperlink of the status bar / confirmation
      * close alert
      * @param event 
      */
    public void handleCloseAction(ActionEvent event) {
+       boolean is = false;
+       String[] mssg = new String[3];
+       if(event.getSource().equals(mbClose)){//Menu close
+           mssg[1] = "Close confirmation";
+           mssg[2] = "You pressed the 'Close' button.";
+           mssg[3] = "Are you sure?";
+       }else{//LogOut
+           is = true;
+           mssg[1] = "LogOut confirmation";
+           mssg[2] = "You pressed the 'LogOut' button.";
+           mssg[3] = "Are you sure?";
+       }
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Close confirmation");
-        alert.setHeaderText("You pressed the 'Close' button.");
-        alert.setContentText("Are you sure?");
+        alert.setTitle(mssg[1]);
+        alert.setHeaderText(mssg[2]);
+        alert.setContentText(mssg[3]);
         alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.YES){
             try {
                 client.logOut(user);
                 LOGGER.info("User loggin date updated sucesfully");
-                Platform.exit();
+                if(is)
+                    stage.close();
+                else
+                    Platform.exit();
             } catch (LogicException ex) {
                 LOGGER.severe("Problems updating the Log In date on close");
             } catch (DBException ex) {
@@ -115,16 +131,15 @@ public class LogOutWindowController {
         else
             alert.close();
     }
-   
    /**
-    * Method that handle the log out option of the status bar / confirmation
-    * log out alert
+    * Method that handle the cross button of the window to close the application
+    * confirmation
     * @param event 
     */
-   public void handleLogOutAction(ActionEvent event){
+   public void handleCrossAction(WindowEvent event){
        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("LogOut confirmation");
-        alert.setHeaderText("You pressed the 'LogOut' button.");
+        alert.setTitle("Close confirmation");
+        alert.setHeaderText("You pressed the Cross(Close) button.");
         alert.setContentText("Are you sure?");
         alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
@@ -132,7 +147,7 @@ public class LogOutWindowController {
             try {
                 client.logOut(user);
                 LOGGER.info("User loggin date updated sucesfully");
-                stage.close();
+                Platform.exit();
             } catch (LogicException ex) {
                 LOGGER.severe("Problems updating the Log In date on logout");
             }catch (DBException ex) {
