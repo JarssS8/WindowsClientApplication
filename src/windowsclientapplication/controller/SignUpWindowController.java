@@ -6,21 +6,15 @@
 package windowsclientapplication.controller;
 
 import clientlogic.logic.ConnectableClientFactory;
-import java.awt.Color;
-import java.io.IOException;
+
 import java.sql.Timestamp;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -29,14 +23,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import utilities.beans.User;
-import utilities.exception.DBException;
-import utilities.exception.LogicException;
 import utilities.exception.LoginAlreadyTakenException;
 import utilities.exception.ServerConnectionErrorException;
 import utilities.interfaces.Connectable;
@@ -79,28 +70,26 @@ public class SignUpWindowController {
     @FXML
     private Label lbFullNameCaution;
     
-     private Stage stage;
+    private Stage stage;
+     
     public void setStage(Stage stage) {
         this.stage=stage;
     }
-    
+   
 
     
     public void initStage(Parent root){
         Scene scene = new Scene(root);
+        stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Registration");
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
-        //stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         btBack.setOnAction(this::handleButtonAction);
         btSignUp.setOnAction(this::handleButtonAction);
-        txtUsername.focusedProperty().addListener(this::focusChanged);
-        txtPassword.focusedProperty().addListener(this::focusChanged);
-        txtRepeatPassword.focusedProperty().addListener(this::focusChanged);
-        txtEmail.focusedProperty().addListener(this::focusChanged);
         stage.setOnCloseRequest(this::handleCloseAction);
-        btSignUp.setDisable(true);
+        btSignUp.setDisable(false);
         stage.show();
     }
     
@@ -117,10 +106,12 @@ public class SignUpWindowController {
         txtFullName.setPromptText("Introduce full name");
         
     }
+    
     private void handleCloseAction(WindowEvent event) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Close confirmation");
-        alert.setHeaderText("You pressed the 'Close' button.");
+        alert.setHeaderText("You pressed the 'Close'. \n"
+            + "All the data will be erased..");
         alert.setContentText("Are you sure?");
         alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
@@ -141,7 +132,8 @@ public class SignUpWindowController {
            LOGGER.info("Closing the window");
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Close confirmation");
-            alert.setHeaderText("You pressed the 'Close' button.");
+            alert.setHeaderText("Registration will be cancelled.\n"
+                + "All the data will be erased.");
             alert.setContentText("Are you sure?");
             alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
@@ -165,24 +157,47 @@ public class SignUpWindowController {
                 user.setStatus(1);
                 LOGGER.info("Sending the user...");
                 
-                client.signUp(user);
+                if(checkValidation()){
+                    client.signUp(user);
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("User Sent");
+                    alert.setHeaderText("Registration completed.");
+                    alert.getButtonTypes().setAll(ButtonType.YES);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if(result.get() == ButtonType.YES){
+                        
+                        alert.close();
+                        stage.close();
+                    }
+                    LOGGER.info("User sent correctly");
+                }else{
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText("You have an error with the registration.");
+                    alert.getButtonTypes().setAll(ButtonType.YES);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if(result.get() == ButtonType.YES){
+                       alert.close();
+                    }
+                    LOGGER.info("Error sending user");
+                }
                 
-                LOGGER.info("User sent");
                 
                 
-            } catch (LoginAlreadyTakenException ex) {
-               Alert alert = new Alert(Alert.AlertType.ERROR);
+           
+            }catch (LoginAlreadyTakenException ex) {
+               Logger.getLogger(SignUpWindowController.class.getName()).log(Level.SEVERE, null, ex);Alert alert = new Alert(Alert.AlertType.ERROR);
                alert.setTitle("SignUp Error");
                alert.setContentText("Username already exist");
                alert.showAndWait();
             } catch (ServerConnectionErrorException ex) {
                 Logger.getLogger(SignUpWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+        
         }
-        
-        
-        
     }
+    
     /**
      * A method that validates the pattern of the email
      * 
@@ -247,8 +262,7 @@ public class SignUpWindowController {
      * @param oldValue
      * @param newValue 
     */
-    private void focusChanged (ObservableValue observable,Boolean oldValue,
-        Boolean newValue){
+    private boolean checkValidation(){
             boolean passCheck = checkPassword(txtPassword.getText().trim());
             boolean passCheckRepeat = checkPassRepeat(txtPassword.getText()
                 .trim(),txtRepeatPassword.getText().trim());
@@ -260,59 +274,54 @@ public class SignUpWindowController {
             boolean passwordRepeat = false;
             boolean email = false;
             boolean fullname = false;
-        if(newValue){
+            boolean ok = false;
             
-        }else if(oldValue){
             if(txtUsername.getText().trim().length()>3 && 
                 txtUsername.getText().trim().length()<11){
 
                 username= true;
-                lbUsernameCaution.setTextFill(Paint.valueOf("BLACK"));
+                 lbUsernameCaution.setTextFill(Paint.valueOf("BLACK"));
 
             }else{
-                btSignUp.setDisable(true);
-                lbUsernameCaution.setTextFill(Paint.valueOf("RED")); 
+                
+                 lbUsernameCaution.setTextFill(Paint.valueOf("RED"));
 
             }
+            
             if(txtPassword.getText().trim().length()>7 && 
                 txtPassword.getText().trim().length()<15){
 
                 passwordlength=true;
                 lbPasswordCaution1.setTextFill(Paint.valueOf("BLACK"));
 
-                }else{
+            }else{
 
-                btSignUp.setDisable(true);
                 lbPasswordCaution1.setTextFill(Paint.valueOf("RED"));
-                lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
+              
+            }
 
-                }
-
-                if(passCheck){
+            if(passCheck){
 
                 passwordCheck=true;
-                lbPasswordCaution2A.setTextFill(Paint.valueOf("BLACK"));    
-                lbPasswordCaution2B.setTextFill(Paint.valueOf("BLACK")); 
+                lbPasswordCaution2A.setTextFill(Paint.valueOf("BLACK"));
+                lbPasswordCaution2B.setTextFill(Paint.valueOf("BLACK"));
+
 
             }else{
 
-                btSignUp.setDisable(true);
                 lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
                 lbPasswordCaution2B.setTextFill(Paint.valueOf("RED"));
-                lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
-
+                
             } 
                 
             if(passCheckRepeat){
 
                 passwordRepeat=true;
                 lbPasswordCaution3.setTextFill(Paint.valueOf("BLACK"));
-
             }else{
 
-                btSignUp.setDisable(true);
                 lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
-
+                
             }  
              if(emailCheck){
 
@@ -321,29 +330,29 @@ public class SignUpWindowController {
 
             }else{
 
-                btSignUp.setDisable(true);
-                lbEmailCaution.setTextFill(Paint.valueOf("RED"));
-
+               lbEmailCaution.setTextFill(Paint.valueOf("RED"));
+                
             }
-              if(txtFullName.getText().trim().length()<44){
-                fullname = true;
-                lbFullNameCaution.setTextFill(Paint.valueOf("BLACK"));
+             
+            if(!txtFullName.getText().isEmpty() && txtFullName.getText().trim().length()<44){
+                
+              fullname = true;
+              lbFullNameCaution.setTextFill(Paint.valueOf("BLACK"));
+              
             }else{
-                btSignUp.setDisable(true);
-                lbFullNameCaution.setTextFill(Paint.valueOf("RED"));
+                
+               lbFullNameCaution.setTextFill(Paint.valueOf("RED"));
+                
             }
-            
             
             if(username && passwordlength && passwordRepeat && passwordCheck 
                 && email && fullname){
 
-                btSignUp.setDisable(false);
-
+               ok = true;
+               
             }
-        }
-        
-        
-       
+            
+           return ok;
     }
    
 }

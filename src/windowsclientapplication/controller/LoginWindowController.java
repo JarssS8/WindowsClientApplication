@@ -171,7 +171,7 @@ public class LoginWindowController {
      * @throws windowsclientapplication.exception.WindowsProjectException
      */
     public void loginClick(ActionEvent event) throws LoginNotFoundException, DBException, WrongPasswordException, LogicException, WindowsProjectException {
-        try {
+       /* try {
             User user = new User();
             user.setLogin(txtUsername.getText().trim());
             user.setPassword(txtPassword.getText().trim());
@@ -204,7 +204,7 @@ public class LoginWindowController {
             throw new WindowsProjectException(e.getMessage());
         } catch (ServerConnectionErrorException ex) {
             Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } */
     }
 
     /**
@@ -221,4 +221,5 @@ public class LoginWindowController {
         signUpController.setStage(stage);
         signUpController.initStage(root);
     }
+
 }
