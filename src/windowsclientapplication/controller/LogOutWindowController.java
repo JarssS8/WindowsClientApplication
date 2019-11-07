@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -29,7 +30,7 @@ import utilities.exception.LogicException;
 import utilities.interfaces.Connectable;
 
 /**
- *
+ *COntroller for the main window, LogOut window.
  * @author Diego Urraca
  */
 public class LogOutWindowController {
@@ -164,19 +165,20 @@ public class LogOutWindowController {
     */
    public void handleAboutAction(ActionEvent event) {
         try{
-            Runtime rTime = Runtime.getRuntime();
-            String url = "..\\help\\help.html";
-            String browser = "C:/Program Files/Internet Explorer/iexplore.exe";
-            Process pc = rTime.exec(browser+url);
-            pc.wait();
-        }catch(IOException e){
-            LOGGER.severe("Input / Output error");
-        }catch(InterruptedException e){
-            LOGGER.severe("Runtime interrupted");
-        }catch(Exception e){
-            LOGGER.severe("Error trying to load the help HTML");
-        }
-       
+            FXMLLoader loader=
+                new FXMLLoader(getClass().getResource("/windowsclientapplication/view/Help.fxml"));
+                Parent root = (Parent)loader.load();
+                HelpController helpController=
+                        ((HelpController)loader.getController());
+                helpController.initAndShowStage(root);
+            }catch(Exception ex){
+                LOGGER.severe("Error showing the help page");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Alert");
+                alert.setHeaderText("ERROR");
+                alert.setContentText("There was an error loading the help page");
+                alert.showAndWait();
+            }
    }
     
     /**
