@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -69,6 +70,16 @@ public class SignUpWindowController {
     private Label lbPasswordCaution3;
     @FXML
     private Label lbFullNameCaution;
+    @FXML
+    private Label lbUsername;
+    @FXML
+    private Label lbPassword;
+    @FXML
+    private Label lbEmail;
+    @FXML
+    private Label lbRepeatPassword;
+   	 @FXML
+    	private Label lbFullName;
     
     private Stage stage;
      
@@ -104,6 +115,16 @@ public class SignUpWindowController {
         txtPassword.setPromptText("Introduce password");
         txtRepeatPassword.setPromptText("Repeat password");
         txtFullName.setPromptText("Introduce full name");
+        btSignUp.setTooltip(new Tooltip("Click to complete the registration."));
+        btBack.setTooltip(new Tooltip("Return to LogIn."));
+        lbUsername.setTooltip(new Tooltip("Username to login."));
+        lbPassword.setTooltip(new Tooltip("Password to login."));
+        lbEmail.setTooltip(new Tooltip("Email to send information."));
+        lbFullName.setTooltip(new Tooltip("Your Full Name."));
+        btSignUp.setMnemonicParsing(true);
+        btBack.setMnemonicParsing(true);
+        btSignUp.setText("_Sign Up");
+        btBack.setText("_Back");
         
     }
     
