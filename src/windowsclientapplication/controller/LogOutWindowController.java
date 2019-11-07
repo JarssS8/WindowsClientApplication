@@ -99,19 +99,19 @@ public class LogOutWindowController {
        boolean is = false;
        String[] mssg = new String[3];
        if(event.getSource().equals(mbClose)){//Menu close
-           mssg[1] = "Close confirmation";
-           mssg[2] = "You pressed the 'Close' button.";
-           mssg[3] = "Are you sure?";
+           mssg[0] = "Close confirmation";
+           mssg[1] = "You pressed the 'Close' button.";
+           mssg[2] = "Are you sure?";
        }else{//LogOut
            is = true;
-           mssg[1] = "LogOut confirmation";
-           mssg[2] = "You pressed the 'LogOut' button.";
-           mssg[3] = "Are you sure?";
+           mssg[0] = "LogOut confirmation";
+           mssg[1] = "You pressed the 'LogOut' button.";
+           mssg[2] = "Are you sure?";
        }
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle(mssg[1]);
-        alert.setHeaderText(mssg[2]);
-        alert.setContentText(mssg[3]);
+        alert.setTitle(mssg[0]);
+        alert.setHeaderText(mssg[1]);
+        alert.setContentText(mssg[2]);
         alert.getButtonTypes().setAll(ButtonType.YES,ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.YES){
