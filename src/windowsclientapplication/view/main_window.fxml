@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bopMainWin" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bopMainWin" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.LogOutWindowController">
    <bottom>
       <HBox fx:id="hbStatBar" prefHeight="25.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +24,7 @@
                <children>
                   <Label layoutX="12.0" layoutY="4.0" text="Last connection:" />
                   <Label fx:id="lblStatusLastConn" layoutX="109.0" layoutY="4.0" text="&lt;last conn. date&gt;" />
-                  <Hyperlink fx:id="hlLogOut" layoutX="336.0" layoutY="1.0" text="LogOut" />
+                  <Hyperlink fx:id="hlLogOut" onAction="#handleCloseAction" layoutX="336.0" layoutY="1.0" text="LogOut" />
                </children>
             </Pane>
          </children>
@@ -35,12 +35,12 @@
         <menus>
           <Menu fx:id="menOpt" mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem fx:id="mbClose" mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="mbClose" onAction="#handleCloseAction" mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
           <Menu fx:id="menHel" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="mbAbout" mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="mbAbout" onAction="#handleAboutAction" mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
