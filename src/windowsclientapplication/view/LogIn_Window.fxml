@@ -24,14 +24,14 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="385.0" spacing="40.0">
                      <children>
-                        <Label fx:id="lbUsername" text="Username" />
-                        <TextField fx:id="txtUsername" prefHeight="31.0" prefWidth="269.0" />
+                        <Label fx:id="lbLogin" text="Username" />
+                        <TextField fx:id="txtLogin" prefHeight="31.0" prefWidth="269.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="375.0" spacing="43.0">
                      <children>
-                        <Label fx:id="lbPassword" text="Password" />
-                        <PasswordField fx:id="txtPassword" prefHeight="31.0" prefWidth="273.0" />
+                        <Label fx:id="lbPass" text="Password" />
+                        <PasswordField fx:id="txtPass" prefHeight="31.0" prefWidth="273.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0">

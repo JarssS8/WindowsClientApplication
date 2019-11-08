@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
+<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
    <children>
       <AnchorPane prefHeight="402.0" prefWidth="715.0">
          <children>
@@ -67,19 +67,19 @@
                   <Button fx:id="btSignUp" mnemonicParsing="false" text="SignUp" />
                </children>
             </HBox>
-            <VBox layoutX="37.0" layoutY="274.0" prefHeight="101.0" prefWidth="329.0">
+            <VBox layoutX="37.0" layoutY="257.0" prefHeight="119.0" prefWidth="329.0">
                <children>
                   <Label fx:id="lbUsernameCaution" text="*Username 4 -10 characters">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbEmailCaution" text="*Email possibility example &quot;email.example@extension.cope&quot;" />
                   <Label fx:id="lbPasswordCaution1" text="*Password 8 -14 characters">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
+                  <Label fx:id="lbEmailCaution" text="*Email possibility example &quot;example@extension.cope&quot;" />
                   <VBox prefHeight="37.0" prefWidth="316.0">
                      <children>
                         <Label fx:id="lbPasswordCaution2A" text="*Password must have at least one">
@@ -92,8 +92,18 @@
                               <Font name="System Italic" size="12.0" />
                            </font>
                         </Label>
+                        <Label fx:id="lbPasswordCaution3" text="*The password must be equal">
+                           <font>
+                              <Font name="System Italic" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
+                  <Label fx:id="lbFullNameCaution" text="*Full Name 1 - 45 characters">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
          </children>
