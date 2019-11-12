@@ -24,7 +24,7 @@ public class WindowsClientApplication extends Application {
     /**
      * Starts the JavaFx application. Loads, sets and shows the the fxml view.
      * @param stage The main window of the application.
-     * @throws Exception 
+     * @throws Exception If there is an error.
      */
     @Override
     public void start(Stage stage) throws Exception {

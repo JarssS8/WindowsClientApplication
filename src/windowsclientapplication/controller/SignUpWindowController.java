@@ -37,7 +37,7 @@ import utilities.util.Util;
 /**
  * This class is a controller UI class for SignUp_Window view.
  * Contains event handlers and on window showing code.
- * @author Aimar Arrizabalaga & Gaizka Andrés
+ * @author Aimar Arrizabalaga  Gaizka Andrés
  */
 public class SignUpWindowController {
 
@@ -172,7 +172,7 @@ public class SignUpWindowController {
     /**
      * A method that registres the button actions
      *
-     * @param eventThe event is the user clicking on the buttons.
+     * @param event The event is the user clicking on the buttons.
      */
     public void handleButtonAction(ActionEvent event) {
 

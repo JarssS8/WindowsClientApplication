@@ -80,9 +80,8 @@ public class LogOutWindowController {
     /**
      * Method to initialize the window
      *
-     * @param root
-     * @param client
-     * @param user
+     * @param root The parent object
+     * @param user The object that send to database
      */
     public void initStage(Parent root, User user) {
         try {
@@ -98,9 +97,9 @@ public class LogOutWindowController {
             mbClose.setOnAction(this::handleCloseAction);
             mbAbout.setOnAction(this::handleAboutAction);
             hlLogOut.setOnAction(this::handleCloseAction);
-            stage.showAndWait();
+            stage.show();
         } catch (Exception e) {
-            LOGGER.severe("Can not initialize the main window");
+            LOGGER.warning("Can not initialize the main window");
         }
     }
 
