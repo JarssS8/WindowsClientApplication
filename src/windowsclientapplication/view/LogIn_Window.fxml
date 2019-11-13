@@ -22,16 +22,16 @@
             </Label>
             <VBox alignment="CENTER_RIGHT" layoutX="122.0" layoutY="104.0" prefHeight="162.0" prefWidth="375.0" spacing="20.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="385.0" spacing="40.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="385.0">
                      <children>
-                        <Label fx:id="lbLogin" text="Username" />
-                        <TextField fx:id="txtLogin" prefHeight="31.0" prefWidth="269.0" />
+                        <Label fx:id="lbLogin" prefHeight="27.0" prefWidth="82.0" text="Username" />
+                        <TextField fx:id="txtLogin" prefHeight="31.0" prefWidth="292.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="375.0" spacing="43.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="375.0">
                      <children>
-                        <Label fx:id="lbPass" text="Password" />
-                        <PasswordField fx:id="txtPass" prefHeight="31.0" prefWidth="273.0" />
+                        <Label fx:id="lbPass" prefHeight="23.0" prefWidth="83.0" text="Password" />
+                        <PasswordField fx:id="txtPass" prefHeight="31.0" prefWidth="292.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0">

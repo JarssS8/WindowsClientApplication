@@ -35,8 +35,9 @@ import utilities.exception.WrongPasswordException;
 import utilities.interfaces.Connectable;
 
 /**
- * This class is a controller UI class for LogIn_Window view.
- * Contains event handlers and on window showing code.
+ * This class is a controller UI class for LogIn_Window view. Contains event
+ * handlers and on window showing code.
+ *
  * @author Adrian Corral
  */
 public class LoginWindowController {
@@ -170,7 +171,7 @@ public class LoginWindowController {
             event.consume();
         }
     }
-
+    /*MODIFICACION REVISAR SI EL BOTON DE LOGIN SE ACTIVA CUANDO DEBE 13/11/2019 14:40*/
     /**
      * Checks every time that the user change the TextField and if both formats
      * are correct enables the login button.
@@ -182,33 +183,17 @@ public class LoginWindowController {
         boolean usernameOk = false;
         boolean passwordCheck = false;
         //Check if user got the correct format
-        if (txtLogin.getText().trim().length() >= 4 && 
-                txtLogin.getText().trim().length() <= 10) {
-            //Check if password got the correct format
-            usernameOk = true;
-
-        } else {
-
-            usernameOk = false;
-
-        }
-        if (txtPass.getText().trim().length() >= 8 && 
-                txtPass.getText().trim().length() <= 14 && passok) {
-            //Enables LogIn button
-            passwordCheck = true;
-
-        } else {
-            passwordCheck = false;
-        }
-        if (usernameOk && passwordCheck) {
-            btLogin.setDisable(false);
-        } else {
-            btLogin.setDisable(true);
-        }
+        usernameOk = txtLogin.getText().trim().length() >= 4 && txtLogin.getText().trim().length() <= 10;
+        //Check password got corect format
+        passwordCheck = txtPass.getText().trim().length() >= 8
+                && txtPass.getText().trim().length() <= 14 && passok;
+        //Enable Login Button
+        btLogin.setDisable(!usernameOk || !passwordCheck);
     }
-    
+
     /**
      * This method checks if the password has the correct format.
+     *
      * @param password a String that contains the passwors written by the user.
      * @return check A boolean.
      */
@@ -235,7 +220,7 @@ public class LoginWindowController {
     }
 
     /**
-     * This method sends the txtLogin and the txtPass to the factory and waits 
+     * This method sends the txtLogin and the txtPass to the factory and waits
      * if the user exists on dataBase and the password is correct to go to the
      * logout window.
      *
@@ -267,10 +252,11 @@ public class LoginWindowController {
             alert.setContentText("User does not exist");
             alert.showAndWait();
         } catch (WrongPasswordException e) {
+            /*MODIFICACION MENSAJE SI LA CONTRASEÑA ES INCORRECTA 13/11/2019 14:04*/
             LOGGER.warning("LoginWindowController: Wrong password");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Password Error");
-            alert.setContentText("Password does not exist");
+            alert.setContentText("Password is not correct");
             alert.showAndWait();
         } catch (ServerConnectionErrorException ex) {
             LOGGER.warning("LoginWindowController: Server connection error");
