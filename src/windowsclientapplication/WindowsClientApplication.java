@@ -5,11 +5,14 @@
  */
 package windowsclientapplication;
 
+import clientlogic.logic.ConnectableClientFactory;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import utilities.interfaces.Connectable;
 import windowsclientapplication.controller.*;
 
 /**
@@ -18,6 +21,18 @@ import windowsclientapplication.controller.*;
  * @author adria
  */
 public class WindowsClientApplication extends Application {
+    
+    /**
+     * Declaration of the port for the connection
+     */
+    private static final int PORT = Integer.parseInt(ResourceBundle.getBundle(
+            "windowsclientapplication.PropertiesClientSide").getString("PORT"));
+
+    /**
+     * Declaration of the IP for the connection
+     */
+    private static final String IP = ResourceBundle.getBundle(
+            "windowsclientapplication.PropertiesClientSide").getString("IP");
     
     private static final Logger LOGGER = Logger
             .getLogger("windowsclientapplication.WindowsClientApplication");
@@ -28,6 +43,7 @@ public class WindowsClientApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        Connectable client = ConnectableClientFactory.getClient(IP,PORT);
         LOGGER.info("Loading LogIn window...");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/LogIn_Window.fxml"));
         Parent root =(Parent)loader.load();

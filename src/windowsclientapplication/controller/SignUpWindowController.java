@@ -5,16 +5,17 @@
  */
 package windowsclientapplication.controller;
 
-import clientlogic.logic.ConnectableClientFactory;
-
+import clientlogic.logic.Client;
+import com.sun.java.accessibility.util.EventID;
+import java.io.IOException;
 import java.sql.Timestamp;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,6 +25,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,29 +34,19 @@ import javafx.stage.WindowEvent;
 import utilities.beans.User;
 import utilities.exception.LoginAlreadyTakenException;
 import utilities.exception.ServerConnectionErrorException;
-import utilities.interfaces.Connectable;
 import utilities.util.Util;
 
 /**
- * This class is a controller UI class for SignUp_Window view.
- * Contains event handlers and on window showing code.
+ * This class is a controller UI class for SignUp_Window view. Contains event
+ * handlers and on window showing code.
+ *
  * @author Aimar Arrizabalaga & Gaizka Andrés
  */
 public class SignUpWindowController {
 
     private static final Logger LOGGER = Logger
             .getLogger("WindowsClientApplication.controller.SignUpWindowController");
-    /**
-     * Declaration of the port for the connection
-     */
-    private static final int PORT = Integer.parseInt(ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("PORT"));
 
-    /**
-     * Declaration of the IP for the connection
-     */
-    private static final String IP = ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("IP");
     @FXML
     private Button btBack;
     @FXML
@@ -92,11 +85,19 @@ public class SignUpWindowController {
     private Label lbRepeatPassword;
     @FXML
     private Label lbFullName;
+    @FXML
+    private Button btHelp;
 
     private Stage stage;
 
+    private Client client;
+
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     /**
@@ -116,14 +117,19 @@ public class SignUpWindowController {
         stage.initModality(Modality.APPLICATION_MODAL);
         btBack.setOnAction(this::handleButtonAction);
         btSignUp.setOnAction(this::handleButtonAction);
+        btHelp.setOnAction(this::helpButtonAction);
         stage.setOnCloseRequest(this::handleCloseAction);
         btSignUp.setDisable(false);
+        
+        stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED,this::helpshortcut);
+        
         stage.show();
     }
 
     /**
      * This is the method to control the components of this window when we shows
      * the window.
+     *
      * @param event The event is the window that is being showed.
      */
     private void handleWindowShowing(WindowEvent event) {
@@ -144,8 +150,17 @@ public class SignUpWindowController {
         btBack.setMnemonicParsing(true);
         btSignUp.setText("_Sign Up");
         btBack.setText("_Back");
-
+        
+       
     }
+
+    public void helpshortcut(KeyEvent ke) {
+        KeyCode pressButton = ke.getCode();
+        if (pressButton.equals(KeyCode.F1)) {
+            helpAction();
+        }
+    }
+
     /**
      * This method is used if the user try to close the application clicking in
      * the red cross(right-top in the stage) and control if the user is sure to
@@ -153,12 +168,14 @@ public class SignUpWindowController {
      *
      * @param event The event is the user trying to close the application with
      * the cross of the stage.
-     **/
+     *
+     */
     private void handleCloseAction(WindowEvent event) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Close confirmation");
+        /*MODIFICACIÓN DIN 13/11/2019*/
         alert.setHeaderText("You pressed the 'Close'. \n"
-                + "All the data will be erased..");
+                + "Registration will be cancelled.");
         alert.setContentText("Are you sure?");
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
@@ -169,10 +186,43 @@ public class SignUpWindowController {
         }
     }
 
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    /**
+     * A method that registres the help button
+     *
+     * @param event The event when the user click on the help button
+     *
+     */
+    public void helpButtonAction(ActionEvent event) {
+        helpAction();
+    }
+
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    /**
+     * A method that open the help window
+     */
+    public void helpAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().
+                    getResource("/windowsclientapplication/view/SignUp_Help.fxml"));
+
+            Parent root = (Parent) loader.load();
+            SignUpHelpController signupHelpcontroller = loader.getController();
+            signupHelpcontroller.setStage(stage);
+            signupHelpcontroller.initStage(root);
+        } catch (IOException ex) {
+            LOGGER.warning("SignUpWindowController: IO Exception on SignUpWindowController");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has ocurred");
+            alert.showAndWait();
+        }
+    }
+
     /**
      * A method that registres the button actions
      *
-     * @param eventThe event is the user clicking on the buttons.
+     * @param event The event is the user clicking on the buttons.
      */
     public void handleButtonAction(ActionEvent event) {
 
@@ -180,8 +230,9 @@ public class SignUpWindowController {
             LOGGER.info("Closing the window");
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Close confirmation");
-            alert.setHeaderText("Registration will be cancelled.\n"
-                    + "All the data will be erased.");
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            alert.setHeaderText("You pressed the 'Close'. \n"
+                    + "Registration will be cancelled.");
             alert.setContentText("Are you sure?");
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
@@ -205,7 +256,7 @@ public class SignUpWindowController {
                     user.setPrivilege(1);
                     user.setStatus(1);
                     LOGGER.info("Sending the user...");
-                    Connectable client = ConnectableClientFactory.getClient(IP,PORT);
+
                     client.signUp(user);
 
                     //An alert to let the user know the signing up's been correct.
@@ -339,7 +390,8 @@ public class SignUpWindowController {
         } else {
 
             lbUsernameCaution.setTextFill(Paint.valueOf("RED"));
-
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            txtUsername.requestFocus();
         }
 
         if (txtPassword.getText().trim().length() > 7
@@ -351,7 +403,8 @@ public class SignUpWindowController {
         } else {
 
             lbPasswordCaution1.setTextFill(Paint.valueOf("RED"));
-
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            txtPassword.requestFocus();
         }
 
         if (passCheck) {
@@ -364,7 +417,8 @@ public class SignUpWindowController {
 
             lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
             lbPasswordCaution2B.setTextFill(Paint.valueOf("RED"));
-
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            txtPassword.requestFocus();
         }
 
         if (passCheckRepeat) {
@@ -374,7 +428,8 @@ public class SignUpWindowController {
         } else {
 
             lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
-
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            txtRepeatPassword.requestFocus();
         }
         if (emailCheck) {
 
@@ -384,7 +439,8 @@ public class SignUpWindowController {
         } else {
 
             lbEmailCaution.setTextFill(Paint.valueOf("RED"));
-
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            txtEmail.requestFocus();
         }
 
         if (!txtFullName.getText().trim().isEmpty() && txtFullName.getText().trim().length() < 44) {
@@ -395,7 +451,8 @@ public class SignUpWindowController {
         } else {
 
             lbFullNameCaution.setTextFill(Paint.valueOf("RED"));
-
+            /*MODIFICACIÓN DIN 13/11/2019*/
+            txtFullName.requestFocus();
         }
 
         if (username && passwordlength && passwordRepeat && passwordCheck

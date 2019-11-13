@@ -5,6 +5,7 @@
  */
 package windowsclientapplication.controller;
 
+import clientlogic.logic.Client;
 import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
 import java.util.Optional;
@@ -76,6 +77,8 @@ public class LoginWindowController {
 
     @FXML
     private Label lbPass;
+    
+    private Client client;
 
     private static final Logger LOGGER = Logger.getLogger(
             "WindowsClientApplication.controller.LoginWindowController");
@@ -104,6 +107,10 @@ public class LoginWindowController {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    
+    public void setClient(Client client){
+        this.client=client;
     }
 
     /**
@@ -248,7 +255,6 @@ public class LoginWindowController {
             User user = new User();
             user.setLogin(txtLogin.getText().trim());
             user.setPassword(txtPass.getText().trim());
-            Connectable client = ConnectableClientFactory.getClient(IP, PORT);
             LOGGER.info("Client created...");
             user = client.logIn(user);
 
