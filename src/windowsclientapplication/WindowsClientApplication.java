@@ -5,6 +5,7 @@
  */
 package windowsclientapplication;
 
+import clientlogic.logic.Client;
 import clientlogic.logic.ConnectableClientFactory;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -50,6 +51,7 @@ public class WindowsClientApplication extends Application {
         LoginWindowController controller = loader.getController();
 
         controller.setStage(stage);
+        controller.setClient((Client) client);
         controller.initStage(root);
     }
 

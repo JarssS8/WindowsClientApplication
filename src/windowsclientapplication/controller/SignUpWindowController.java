@@ -121,6 +121,7 @@ public class SignUpWindowController {
         stage.setOnCloseRequest(this::handleCloseAction);
         btSignUp.setDisable(false);
         
+        /*MODIFICACIÓN DIN 13/11/2019*/
         stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED,this::helpshortcut);
         
         stage.show();
@@ -150,10 +151,15 @@ public class SignUpWindowController {
         btBack.setMnemonicParsing(true);
         btSignUp.setText("_Sign Up");
         btBack.setText("_Back");
-        
-       
+  
     }
-
+    
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    /**
+     * A method that registre the key pressed
+     * 
+     * @param ke  The event when press a key
+     */
     public void helpshortcut(KeyEvent ke) {
         KeyCode pressButton = ke.getCode();
         if (pressButton.equals(KeyCode.F1)) {

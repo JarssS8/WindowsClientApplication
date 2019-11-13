@@ -78,7 +78,7 @@ public class LoginWindowController {
     @FXML
     private Label lbPass;
     
-    private Client client;
+    private Connectable client;
 
     private static final Logger LOGGER = Logger.getLogger(
             "WindowsClientApplication.controller.LoginWindowController");
@@ -317,6 +317,7 @@ public class LoginWindowController {
         SignUpWindowController signUpController
                 = ((SignUpWindowController) loader.getController());
         signUpController.setStage(stage);
+        signUpController.setClient((Client) client);
         signUpController.initStage(root);
     }
 
