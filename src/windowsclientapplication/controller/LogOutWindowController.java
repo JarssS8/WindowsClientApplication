@@ -70,7 +70,7 @@ public class LogOutWindowController {
     private Label lblStatusLastConn;
 
     private Stage stage;
-    private Connectable client = ConnectableClientFactory.getClient(IP, PORT);
+    private Connectable client = ConnectableClientFactory.getClient();
     private User user = null;
 
     public void setStage(Stage stage) {

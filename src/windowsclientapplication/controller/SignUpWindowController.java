@@ -175,7 +175,7 @@ public class SignUpWindowController {
      */
     public void helpshortcut(KeyEvent ke) {
         KeyCode pressButton = ke.getCode();
-        if (pressButton.equals(KeyCode.F5)) {
+        if (pressButton.equals(KeyCode.F1)) {
             helpAction();
         }
     }

@@ -50,7 +50,7 @@ public class WindowsClientApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        client = ConnectableClientFactory.getClient(IP,PORT);
+        client = ConnectableClientFactory.getClient();
         LOGGER.info("Loading LogIn window...");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/LogIn_Window.fxml"));
         Parent root = (Parent) loader.load();
