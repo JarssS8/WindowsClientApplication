@@ -80,9 +80,8 @@ public class LogOutWindowController {
     /**
      * Method to initialize the window
      *
-     * @param root
-     * @param client
-     * @param user
+     * @param root A Parent object.
+     * @param user A User object.
      */
     public void initStage(Parent root, User user) {
         try {
@@ -186,17 +185,18 @@ public class LogOutWindowController {
     public void handleAboutAction(ActionEvent event) {
         try {
             FXMLLoader loader
-                    = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/Help.fxml"));
+                    = new FXMLLoader(getClass().getResource(
+                            "/windowsclientapplication/view/Help.fxml"));
             Parent root = (Parent) loader.load();
             HelpController helpController
                     = ((HelpController) loader.getController());
             helpController.initAndShowStage(root);
         } catch (Exception ex) {
-            LOGGER.severe("Error showing the help page");
+            LOGGER.severe("Error showing the help window");
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Alert");
+            alert.setTitle("Error");
             alert.setHeaderText("ERROR");
-            alert.setContentText("There was an error loading the help page");
+            alert.setContentText("There was an error loading the help window");
             alert.showAndWait();
         }
     }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
+    <children>
+        <BorderPane prefHeight="402.0" prefWidth="715.0">
+            <top>
+                <Label alignment="CENTER" prefHeight="57.0" prefWidth="715.0" text="Complete all the fields for a succesfull SignUp" underline="true" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+            </top>
+            <bottom>
+                <HBox alignment="CENTER_RIGHT" cache="true" prefHeight="65.0" prefWidth="715.0" spacing="20.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="btBack" mnemonicParsing="false" text="Back" />
+                        <Button fx:id="btSignUp" mnemonicParsing="false" text="SignUp" />
+                    </children>
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets right="50.0" />
+                    </padding>
+                </HBox>
+            </bottom>
+            <center>
+                <AnchorPane BorderPane.alignment="CENTER">
+                    <children>
+                        <Label fx:id="lbUsername" layoutY="47.0" prefHeight="17.0" prefWidth="110.0" text="Username">
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="txtUsername" layoutX="110.0" layoutY="43.0" prefHeight="25.0" prefWidth="175.0" />
+                        <Label fx:id="lbPassword" layoutX="360.0" layoutY="47.0" prefWidth="110.0" text="Password" />
+                        <PasswordField fx:id="txtPassword" layoutX="470.0" layoutY="43.0" prefHeight="25.0" prefWidth="175.0" />
+                        <Label fx:id="lbUsernameCaution" layoutX="125.0" layoutY="76.0" text="*Username 4 -10 characters">
+                            <font>
+                                <Font name="System Italic" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lbPasswordCaution1" layoutX="487.0" layoutY="76.0" text="*Password 8 -14 characters">
+                            <font>
+                                <Font name="System Italic" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lbEmail" layoutY="130.0" prefHeight="17.0" prefWidth="110.0" text="Email">
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="txtEmail" layoutX="110.0" layoutY="126.0" prefHeight="25.0" prefWidth="175.0" />
+                        <Label fx:id="lbRepeatPassword" layoutX="360.0" layoutY="128.0" prefHeight="21.0" prefWidth="110.0" text="Repeat Password" />
+                        <PasswordField fx:id="txtRepeatPassword" layoutX="470.0" layoutY="126.0" prefHeight="25.0" prefWidth="175.0" />
+                        <Label fx:id="lbPasswordCaution2A" layoutX="361.0" layoutY="93.0" prefHeight="17.0" prefWidth="345.0" text="*Password must have at least an uppercase letter and a number">
+                            <font>
+                                <Font name="System Italic" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lbEmailCaution" layoutX="130.0" layoutY="160.0" text="example@extension.cope" />
+                        <Label fx:id="lbFullName" layoutY="205.0" prefHeight="17.0" prefWidth="110.0" text="Full name">
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                        </Label>
+                        <TextField fx:id="txtFullName" layoutX="110.0" layoutY="201.0" prefHeight="25.0" prefWidth="175.0" />
+                        <Label fx:id="lbFullNameCaution" layoutX="123.0" layoutY="236.0" text="*Full Name 1 - 45 characters">
+                            <font>
+                                <Font name="System Italic" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lbPasswordCaution3" layoutX="482.0" layoutY="160.0" text="*The password must be equal">
+                            <font>
+                                <Font name="System Italic" size="12.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
+</Pane>

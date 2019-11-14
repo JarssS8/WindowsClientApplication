@@ -12,38 +12,38 @@
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="619.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.LoginWindowController">
-   <children>
-      <AnchorPane prefHeight="370.0" prefWidth="619.0">
-         <children>
-            <Label fx:id="nameCompany" alignment="CENTER" prefHeight="67.0" prefWidth="619.0" text="2DAM2Curious">
-               <font>
-                  <Font name="Agency FB Bold" size="73.0" />
-               </font>
-            </Label>
-            <VBox alignment="CENTER_RIGHT" layoutX="122.0" layoutY="104.0" prefHeight="162.0" prefWidth="375.0" spacing="20.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="385.0" spacing="40.0">
-                     <children>
-                        <Label fx:id="lbLogin" text="Username" />
-                        <TextField fx:id="txtLogin" prefHeight="31.0" prefWidth="269.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="375.0" spacing="43.0">
-                     <children>
-                        <Label fx:id="lbPass" text="Password" />
-                        <PasswordField fx:id="txtPass" prefHeight="31.0" prefWidth="273.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0">
-                     <children>
-                        <Label fx:id="lbNewUser" alignment="CENTER" text="New user?" />
-                        <Hyperlink fx:id="linkClickHere" onAction="#signUpClick" text="Click Here" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-      <Button fx:id="btLogin" layoutX="538.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginClick" text="LogIn" />
-   </children>
+    <children>
+        <AnchorPane prefHeight="370.0" prefWidth="619.0">
+            <children>
+                <Label fx:id="nameCompany" alignment="CENTER" prefHeight="67.0" prefWidth="619.0" text="2DAM2Curious">
+                    <font>
+                        <Font name="Agency FB Bold" size="73.0" />
+                    </font>
+                </Label>
+                <VBox alignment="CENTER_RIGHT" layoutX="122.0" layoutY="104.0" prefHeight="162.0" prefWidth="375.0" spacing="20.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="385.0" spacing="40.0">
+                            <children>
+                                <Label fx:id="lbLogin" text="Username" />
+                                <TextField fx:id="txtLogin" prefHeight="31.0" prefWidth="269.0" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="375.0" spacing="43.0">
+                            <children>
+                                <Label fx:id="lbPass" text="Password" />
+                                <PasswordField fx:id="txtPass" prefHeight="31.0" prefWidth="273.0" />
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="129.0">
+                            <children>
+                                <Label fx:id="lbNewUser" alignment="CENTER" text="New user?" />
+                                <Hyperlink fx:id="linkClickHere" onAction="#signUpClick" text="Click Here" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <Button fx:id="btLogin" layoutX="538.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginClick" text="LogIn" />
+    </children>
 </Pane>

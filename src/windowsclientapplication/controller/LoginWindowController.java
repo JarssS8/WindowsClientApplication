@@ -5,10 +5,8 @@
  */
 package windowsclientapplication.controller;
 
-import clientlogic.logic.ConnectableClientFactory;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -35,8 +33,9 @@ import utilities.exception.WrongPasswordException;
 import utilities.interfaces.Connectable;
 
 /**
- * This class is a controller UI class for LogIn_Window view.
- * Contains event handlers and on window showing code.
+ * This class is a controller UI class for LogIn_Window view. Contains event
+ * handlers and on window showing code.
+ *
  * @author Adrian Corral
  */
 public class LoginWindowController {
@@ -77,20 +76,10 @@ public class LoginWindowController {
     @FXML
     private Label lbPass;
 
+    private Connectable client;
+
     private static final Logger LOGGER = Logger.getLogger(
             "WindowsClientApplication.controller.LoginWindowController");
-
-    /**
-     * Declaration of the port for the connection
-     */
-    private static final int PORT = Integer.parseInt(ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("PORT"));
-
-    /**
-     * Declaration of the IP for the connection
-     */
-    private static final String IP = ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("IP");
 
     /**
      * @return Return the stage of this class
@@ -104,6 +93,14 @@ public class LoginWindowController {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    /**
+     * @param client the client to set
+     */
+    /* MODIFICACION DIN 13/11/2019 */
+    public void setClient(Connectable client) {
+        this.client = client;
     }
 
     /**
@@ -182,8 +179,8 @@ public class LoginWindowController {
         boolean usernameOk = false;
         boolean passwordCheck = false;
         //Check if user got the correct format
-        if (txtLogin.getText().trim().length() >= 4 && 
-                txtLogin.getText().trim().length() <= 10) {
+        if (txtLogin.getText().trim().length() >= 4
+                && txtLogin.getText().trim().length() <= 10) {
             //Check if password got the correct format
             usernameOk = true;
 
@@ -192,8 +189,8 @@ public class LoginWindowController {
             usernameOk = false;
 
         }
-        if (txtPass.getText().trim().length() >= 8 && 
-                txtPass.getText().trim().length() <= 14 && passok) {
+        if (txtPass.getText().trim().length() >= 8
+                && txtPass.getText().trim().length() <= 14 && passok) {
             //Enables LogIn button
             passwordCheck = true;
 
@@ -206,9 +203,10 @@ public class LoginWindowController {
             btLogin.setDisable(true);
         }
     }
-    
+
     /**
      * This method checks if the password has the correct format.
+     *
      * @param password a String that contains the passwors written by the user.
      * @return check A boolean.
      */
@@ -235,7 +233,7 @@ public class LoginWindowController {
     }
 
     /**
-     * This method sends the txtLogin and the txtPass to the factory and waits 
+     * This method sends the txtLogin and the txtPass to the factory and waits
      * if the user exists on dataBase and the password is correct to go to the
      * logout window.
      *
@@ -248,7 +246,6 @@ public class LoginWindowController {
             User user = new User();
             user.setLogin(txtLogin.getText().trim());
             user.setPassword(txtPass.getText().trim());
-            Connectable client = ConnectableClientFactory.getClient(IP, PORT);
             LOGGER.info("Client created...");
             user = client.logIn(user);
 
@@ -311,6 +308,8 @@ public class LoginWindowController {
         SignUpWindowController signUpController
                 = ((SignUpWindowController) loader.getController());
         signUpController.setStage(stage);
+        /* MODIFICACION DIN 13/11/2019 */
+        signUpController.setClient(client);
         signUpController.initStage(root);
     }
 
