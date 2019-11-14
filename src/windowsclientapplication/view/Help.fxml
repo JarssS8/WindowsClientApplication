@@ -4,7 +4,7 @@
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0"  xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.HelpController">
-   <children>
-      <WebView fx:id="webView" layoutX="9.0" layoutY="7.0" />
-   </children>
+    <children>
+        <WebView fx:id="webView" layoutX="9.0" layoutY="7.0" />
+    </children>
 </AnchorPane>

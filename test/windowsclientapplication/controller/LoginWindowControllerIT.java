@@ -22,24 +22,25 @@ import windowsclientapplication.WindowsClientApplication;
  * @author Gaizka Andres
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LoginWindowControllerIT extends ApplicationTest{
-    
-   @Override
+public class LoginWindowControllerIT extends ApplicationTest {
+
+    @Override
     public void start(Stage stage) throws Exception {
         new WindowsClientApplication().start(stage);
     }
+
     /**
      * Clean all Textfields after one test
      */
     @After
     public void cleanText() {
-        
+
         doubleClickOn("#txtLogin");
         eraseText(1);
         doubleClickOn("#txtPass");
         eraseText(1);
     }
-    
+
     /**
      * Test if the login minimum is correct
      */
@@ -51,7 +52,7 @@ public class LoginWindowControllerIT extends ApplicationTest{
         write("12345678A");
         FxAssert.verifyThat("#btLogin", isDisabled());
     }
-    
+
     /**
      * Test if the login maximum is correct
      */
@@ -63,9 +64,9 @@ public class LoginWindowControllerIT extends ApplicationTest{
         write("12345678A");
         FxAssert.verifyThat("#btLogin", isDisabled());
     }
-    
+
     /**
-     *  Test if the password length is correct
+     * Test if the password length is correct
      */
     @Test
     public void testC_PasswordIncorrectLengthMin() {
@@ -75,18 +76,18 @@ public class LoginWindowControllerIT extends ApplicationTest{
         write("1");
         FxAssert.verifyThat("#btLogin", isDisabled());
     }
-    
+
     /**
-     *  Test if the password minimum is correct
+     * Test if the password minimum is correct
      */
-     public void testD_PasswordIncorrectLengthMax() {
+    public void testD_PasswordIncorrectLengthMax() {
         clickOn("#txtLogin");
         write("Aimar");
         clickOn("#txtPass");
         write("11111111111");
         FxAssert.verifyThat("#btLogin", isDisabled());
     }
-     
+
     /**
      * Test if the password maximum is correct
      */
@@ -98,6 +99,7 @@ public class LoginWindowControllerIT extends ApplicationTest{
         write("12345678a");
         FxAssert.verifyThat("#btLogin", isDisabled());
     }
+
     /**
      * Test if login is correct
      */
@@ -109,7 +111,7 @@ public class LoginWindowControllerIT extends ApplicationTest{
         write("12345678A");
         FxAssert.verifyThat("#btLogin", isEnabled());
     }
-    
+
     /**
      * Test if go correctly to signup window
      */

@@ -38,18 +38,18 @@ import utilities.interfaces.Connectable;
 public class LogOutWindowController {
 
     private static final Logger LOGGER = Logger
-            .getLogger("windowsclientapplication.LogOutWindowController");
+        .getLogger("windowsclientapplication.LogOutWindowController");
     /**
      * Declaration of the port for the connection
      */
     private static final int PORT = Integer.parseInt(ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("PORT"));
+        "windowsclientapplication.PropertiesClientSide").getString("PORT"));
 
     /**
      * Declaration of the IP for the connection
      */
     private static final String IP = ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("IP");
+        "windowsclientapplication.PropertiesClientSide").getString("IP");
     @FXML
     private MenuItem mbClose;
     @FXML
@@ -186,10 +186,10 @@ public class LogOutWindowController {
     public void handleAboutAction(ActionEvent event) {
         try {
             FXMLLoader loader
-                    = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/Help.fxml"));
+                = new FXMLLoader(getClass().getResource("/windowsclientapplication/view/Help.fxml"));
             Parent root = (Parent) loader.load();
             HelpController helpController
-                    = ((HelpController) loader.getController());
+                = ((HelpController) loader.getController());
             helpController.initAndShowStage(root);
         } catch (Exception ex) {
             LOGGER.severe("Error showing the help page");

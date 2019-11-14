@@ -26,12 +26,13 @@ public class SignUpWindowControllerIT extends ApplicationTest {
     public void start(Stage stage) throws Exception {
         new WindowsClientApplication().start(stage);
     }
-     /**
+
+    /**
      * Clean all Textfields after one test
      */
     @After
     public void cleanText() {
-        
+
         doubleClickOn("#txtUsername");
         eraseText(1);
         doubleClickOn("#txtPassword");
@@ -46,6 +47,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         eraseText(10);
 
     }
+
     /**
      * Test if the login is correct
      */
@@ -70,7 +72,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
 
     @Test
     public void testB_ErrorPasswordUpperCase() {
-        
+
         clickOn("#txtUsername");
         write("Aimar");
         clickOn("#txtPassword");
@@ -85,12 +87,14 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#errorbutton", isEnabled());
         clickOn("#errorbutton");
     }
+
     /**
-     *  Test if the password length is correct
-    **/
+     * Test if the password length is correct
+     *
+     */
     @Test
     public void testC_ErrorPasswordLength() {
-        
+
         clickOn("#txtUsername");
         write("Aimar");
         clickOn("#txtPassword");
@@ -105,13 +109,13 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#errorbutton", isEnabled());
         clickOn("#errorbutton");
     }
-    
+
     /**
      * Test if the password field and repeatpassword are the same
      */
     @Test
     public void testD_ErrorPasswordRepeat() {
-      
+
         clickOn("#txtUsername");
         write("Aimar");
         clickOn("#txtPassword");
@@ -126,6 +130,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#errorbutton", isEnabled());
         clickOn("#errorbutton");
     }
+
     /**
      * Test if the email have the correct pattern
      */
@@ -145,6 +150,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#errorbutton", isEnabled());
         clickOn("#errorbutton");
     }
+
     /**
      * Test if fullname have the correct length
      */
@@ -162,6 +168,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#errorbutton", isEnabled());
         clickOn("#errorbutton");
     }
+
     /**
      * Test if the signup is correctly done
      */
@@ -181,7 +188,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#okbutton", isEnabled());
         clickOn("#okbutton");
     }
-    
+
     /**
      * Test if the login already taken exception workd correctly
      */

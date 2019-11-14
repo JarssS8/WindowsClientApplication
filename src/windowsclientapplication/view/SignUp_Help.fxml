@@ -4,8 +4,8 @@
 <?import javafx.scene.web.WebView?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="windowsclientapplication.controller.SignUpHelpController">
-   <children>
-      <WebView fx:id="webViewHelpSignUp" layoutY="1.0" prefHeight="318.0" prefWidth="625.0" />
-   </children>
+      fx:controller="windowsclientapplication.controller.SignUpHelpController">
+    <children>
+        <WebView fx:id="webViewHelpSignUp" layoutY="1.0" prefHeight="318.0" prefWidth="625.0" />
+    </children>
 </Pane>

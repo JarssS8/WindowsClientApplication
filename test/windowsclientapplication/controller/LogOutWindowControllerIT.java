@@ -29,6 +29,7 @@ public class LogOutWindowControllerIT extends ApplicationTest {
     public void start(Stage stage) throws Exception {
         new WindowsClientApplication().start(stage);
     }
+
     /**
      * Test the login
      */
@@ -40,7 +41,7 @@ public class LogOutWindowControllerIT extends ApplicationTest {
         write("12345678A");
         clickOn("#btLogin");
     }
-    
+
     /**
      * Test that load the data in help window
      */
@@ -49,9 +50,9 @@ public class LogOutWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#lblUser", hasText("Test User"));
         FxAssert.verifyThat("#lblEmail", hasText("test@gmail.com"));
         FxAssert.verifyThat("#lblStatusUser", hasText("Test"));
-        
+
     }
-    
+
     /**
      * Test that logOut hyperLink, menu button and an alert appears
      */
@@ -61,7 +62,7 @@ public class LogOutWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#buttonYes", isVisible());
         clickOn("#buttonYes");
     }
-    
+
     /**
      * Test that logOut menu button and an alert appears
      */
@@ -72,7 +73,7 @@ public class LogOutWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#buttonYes", isVisible());
         clickOn("#buttonYes");
     }
-    
+
     /**
      * Test that Help window appears
      */

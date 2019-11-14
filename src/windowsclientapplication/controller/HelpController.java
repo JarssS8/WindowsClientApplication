@@ -15,18 +15,22 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- *Controller for the help window/page.
+ * Controller for the help window/page.
+ *
  * @author Diego Urraca
  */
 public class HelpController {
+
     /**
      * The control that shows the help page.
      */
     @FXML
     private WebView webView;
+
     /**
      * Help window initialization and showing.
-     * @param root 
+     *
+     * @param root
      */
     public void initAndShowStage(Parent root) {
         Scene scene = new Scene(root);
@@ -40,13 +44,15 @@ public class HelpController {
         stage.setOnShowing(this::handleWindowShowing);
         stage.show();
     }
+
     /**
      * Method that load and show the help page.
+     *
      * @param event The event is the window that is being showed.
      */
-    private void handleWindowShowing(WindowEvent event){
+    private void handleWindowShowing(WindowEvent event) {
         WebEngine webEngine = webView.getEngine();
         webEngine.load(getClass()
-                .getResource("/windowsclientapplication/view/help.html").toExternalForm());
+            .getResource("/windowsclientapplication/view/help.html").toExternalForm());
     }
 }

@@ -18,16 +18,16 @@ import javafx.stage.WindowEvent;
  * @author Gaizka Andrews
  */
 public class SignUpHelpController {
-    
+
     @FXML
     private WebView webViewHelpSignUp;
     private Stage stage;
-    
+
     void setStage(Stage stage) {
-        this.stage=stage;
+        this.stage = stage;
     }
-    
-    public void initStage(Parent root){
+
+    public void initStage(Parent root) {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
@@ -35,16 +35,14 @@ public class SignUpHelpController {
         stage.setResizable(false);
         stage.setOnShowing(this::handleWindowShowing);
         stage.show();
-        
+
     }
-    private void handleWindowShowing(WindowEvent Event){
+
+    private void handleWindowShowing(WindowEvent Event) {
         WebEngine wEngine = webViewHelpSignUp.getEngine();
         wEngine.load(getClass().
-                getResource("/windowsclientapplication/view/helpSignUp.html")
-                    .toExternalForm());
+            getResource("/windowsclientapplication/view/helpSignUp.html")
+            .toExternalForm());
     }
 
-    
-
-   
 }
