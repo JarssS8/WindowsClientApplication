@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Border;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -96,8 +97,9 @@ public class LogOutWindowController {
             stage.setOnCloseRequest(this::handleCrossAction);
             mbClose.setOnAction(this::handleCloseAction);
             mbAbout.setOnAction(this::handleAboutAction);
+            hlLogOut.setBorder(Border.EMPTY); //Modificacion DIN 14/11/2019
             hlLogOut.setOnAction(this::handleCloseAction);
-            stage.show();
+            stage.show(); //Modificacion DIN 14/11/2019
         } catch (Exception e) {
             LOGGER.severe("Can not initialize the main window");
         }
@@ -207,11 +209,18 @@ public class LogOutWindowController {
      */
     public void onWindowShowing(WindowEvent event) {
         LOGGER.info("Starting loading the labels");
+        String auxName=user.getFullName(); //Modificacion DIN 14/11/2019
+        int nameSpace = auxName.indexOf(" "); //Modificacion DIN 14/11/2019
         lblUser.setText(user.getFullName());
         lblLastConn.setText(user.getLastAccess().toString());
         lblEmail.setText(user.getEmail());
         lblLastPass.setText(user.getLastPasswordChange().toString());
-        lblStatusUser.setText(user.getLogin());
+        
+        if(nameSpace != -1 && nameSpace != 0) //Modificacion DIN 14/11/2019
+            auxName = auxName.substring(0, nameSpace);
+        lblStatusUser.setText(auxName); //Modificacion DIN 14/11/2019
+        
+        //lblStatusUser.setText(user.getLogin());
         lblStatusLastConn.setText(user.getLastAccess().toString());
     }
 

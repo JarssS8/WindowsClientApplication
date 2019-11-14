@@ -17,14 +17,14 @@
             <Pane fx:id="mwHBLeft" prefHeight="25.0" prefWidth="400.0">
                <children>
                   <Label layoutX="8.0" layoutY="4.0" text="Welcome" />
-                  <Label fx:id="lblStatusUser" layoutX="67.0" layoutY="4.0" text="&lt;User&gt;" />
+                  <Label fx:id="lblStatusUser" layoutX="104.0" layoutY="4.0" text="&lt;User&gt;" />
                </children>
             </Pane>
             <Pane fx:id="mwHBRight" prefHeight="25.0" prefWidth="400.0">
                <children>
                   <Label layoutX="12.0" layoutY="4.0" text="Last connection:" />
-                  <Label fx:id="lblStatusLastConn" layoutX="109.0" layoutY="4.0" text="&lt;last conn. date&gt;" />
-                  <Hyperlink fx:id="hlLogOut" onAction="#handleCloseAction" layoutX="336.0" layoutY="1.0" text="LogOut" />
+                  <Label fx:id="lblStatusLastConn" layoutX="157.0" layoutY="4.0" text="&lt;last conn. date&gt;" />
+                  <Hyperlink fx:id="hlLogOut" layoutX="336.0" layoutY="1.0" onAction="#handleCloseAction" text="LogOut" />
                </children>
             </Pane>
          </children>
@@ -35,12 +35,12 @@
         <menus>
           <Menu fx:id="menOpt" mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem fx:id="mbClose" onAction="#handleCloseAction" mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="mbClose" mnemonicParsing="false" onAction="#handleCloseAction" text="Close" />
             </items>
           </Menu>
           <Menu fx:id="menHel" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem fx:id="mbAbout" onAction="#handleAboutAction" mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="mbAbout" mnemonicParsing="false" onAction="#handleAboutAction" text="About" />
             </items>
           </Menu>
         </menus>
@@ -55,13 +55,11 @@
                </font>
             </Label>
             <Label layoutX="36.0" layoutY="62.0" text="Your last connection : " />
-            <Label fx:id="lblLastConn" layoutX="178.0" layoutY="62.0" text="&lt;last conn. date&gt;" />
-            <Label layoutX="612.0" layoutY="519.0" text="Account type:" />
-            <Label fx:id="lblAccount" layoutX="693.0" layoutY="519.0" text="&lt;account priv.&gt;" />
+            <Label fx:id="lblLastConn" layoutX="210.0" layoutY="62.0" text="&lt;last conn. date&gt;" />
             <Label layoutX="36.0" layoutY="289.0" text="Last date you changed your password:" />
-            <Label fx:id="lblLastPass" layoutX="271.0" layoutY="289.0" text="&lt;last pass. date&gt;" />
+            <Label fx:id="lblLastPass" layoutX="308.0" layoutY="289.0" text="&lt;last pass. date&gt;" />
             <Label layoutX="36.0" layoutY="140.0" text="E-mail : " />
-            <Label fx:id="lblEmail" layoutX="95.0" layoutY="138.0" text="&lt;email&gt;" />
+            <Label fx:id="lblEmail" layoutX="123.0" layoutY="138.0" text="&lt;email&gt;" />
          </children>
       </Pane>
    </center>
