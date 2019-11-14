@@ -37,7 +37,10 @@ import utilities.interfaces.Connectable;
  * @author Diego Urraca
  */
 public class LogOutWindowController {
-
+    
+    /**
+     * Declaration of the logger
+     */
     private static final Logger LOGGER = Logger
             .getLogger("windowsclientapplication.LogOutWindowController");
     /**
@@ -51,29 +54,69 @@ public class LogOutWindowController {
      */
     private static final String IP = ResourceBundle.getBundle(
             "windowsclientapplication.PropertiesClientSide").getString("IP");
+    /**
+     * Close application menu bar button
+     */
     @FXML
     private MenuItem mbClose;
+    /**
+     * Help menu bar button
+     */
     @FXML
     private MenuItem mbAbout;
+    /**
+     * LogOut htperlink
+     */
     @FXML
     private Hyperlink hlLogOut;
+    /**
+     * Label of full name of the user
+     */
     @FXML
     private Label lblUser;
+    /**
+     * Label of last connection date of the user
+     */
     @FXML
     private Label lblLastConn;
+    /**
+     * Label of email of the user
+     */
     @FXML
     private Label lblEmail;
+    /**
+     * Label of last password change date of the user 
+     */
     @FXML
     private Label lblLastPass;
+    /**
+     * Label of simple name in status barof the user
+     */
     @FXML
     private Label lblStatusUser;
+    /**
+     * Label of last connection date in the status bar of the user
+     */
     @FXML
     private Label lblStatusLastConn;
-
+    
+    /**
+     * The stage of this window
+     */
     private Stage stage;
+    /**
+     * Client with ip and port
+     */
     private Connectable client = ConnectableClientFactory.getClient(IP, PORT);
+    /**
+     * Object user to fillwith the data of the user that's loging in
+     */
     private User user = null;
-
+    
+    /**
+     * Method that set the stage for this window
+     * @param stage from Log in window
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -81,8 +124,8 @@ public class LogOutWindowController {
     /**
      * Method to initialize the window
      *
-     * @param root
-     * @param user
+     * @param root the loader forthe scene
+     * @param user The user wich is loged in
      */
     public void initStage(Parent root, User user) {
         try {
