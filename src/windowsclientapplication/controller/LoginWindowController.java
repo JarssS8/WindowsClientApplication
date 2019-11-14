@@ -78,21 +78,11 @@ public class LoginWindowController {
 
     @FXML
     private Label lbPass;
+    
+    private Connectable client;
 
     private static final Logger LOGGER = Logger.getLogger(
             "WindowsClientApplication.controller.LoginWindowController");
-
-    /**
-     * Declaration of the port for the connection
-     */
-    private static final int PORT = Integer.parseInt(ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("PORT"));
-
-    /**
-     * Declaration of the IP for the connection
-     */
-    private static final String IP = ResourceBundle.getBundle(
-            "windowsclientapplication.PropertiesClientSide").getString("IP");
 
     /**
      * @return Return the stage of this class
@@ -112,10 +102,10 @@ public class LoginWindowController {
      * This method initialize the window and everything thats the stage needs.
      * This calls other method when shows the window to set attributes of the
      * window
-     *
      * @param root The parent object
+     * @param client The client get it from the factory that is going to use all the application
      */
-    public void initStage(Parent root) {
+    public void initStage(Parent root,Connectable client) {
         Scene scene = new Scene(root);
         //Stage Properties
         stage.setScene(scene);
@@ -128,7 +118,7 @@ public class LoginWindowController {
         txtLogin.textProperty().addListener(this::textChange);
         txtPass.textProperty().addListener(this::textChange);
         
-
+        this.client=client;
         //Stage show
         stage.show();
     }
@@ -241,8 +231,7 @@ public class LoginWindowController {
             User user = new User();
             user.setLogin(txtLogin.getText().trim());
             user.setPassword(txtPass.getText().trim());
-            Connectable client = ConnectableClientFactory.getClient(IP, PORT);
-            LOGGER.info("Client created...");
+            LOGGER.info("Sending user to the login client method");
             user = client.logIn(user);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -252,7 +241,7 @@ public class LoginWindowController {
                     = ((LogOutWindowController) loader.getController());
             logOutController.setStage(stage);
             LOGGER.info("Loading main window...");
-            logOutController.initStage(root, user);
+            logOutController.initStage(root,client, user);
         } catch (LoginNotFoundException e) {
             LOGGER.warning("LoginWindowController: Login not found");
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -311,7 +300,7 @@ public class LoginWindowController {
         SignUpWindowController signUpController
                 = ((SignUpWindowController) loader.getController());
         signUpController.setStage(stage);
-        signUpController.initStage(root);
+        signUpController.initStage(root,client);
     }
 
 }
