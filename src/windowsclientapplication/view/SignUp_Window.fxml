@@ -62,9 +62,9 @@
                         <Font name="System Italic" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btBack" layoutX="36.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Back" />
                 <Button fx:id="btSignUp" layoutX="563.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="SignUp" />
                 <Button fx:id="btHelp" layoutX="450.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Help" />
+                <Button fx:id="btBack" layoutX="36.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Back" />
             </children>
         </AnchorPane>
     </children>
