@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
+<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
    <children>
-      <AnchorPane layoutX="-1.0" prefHeight="402.0" prefWidth="715.0">
+      <AnchorPane prefHeight="402.0" prefWidth="715.0">
          <children>
             <Label fx:id="lbUsername" layoutX="36.0" layoutY="84.0" prefHeight="18.0" prefWidth="84.0" text="Username" />
             <TextField fx:id="txtUsername" layoutX="129.0" layoutY="80.0" prefHeight="26.0" prefWidth="162.0" />
@@ -19,9 +19,9 @@
             <Label fx:id="lbFullName" layoutX="37.0" layoutY="200.0" prefHeight="18.0" prefWidth="84.0" text="Full name" />
             <TextField fx:id="txtFullName" layoutX="130.0" layoutY="197.0" prefHeight="26.0" prefWidth="162.0" />
             <Label fx:id="lbPassword" layoutX="367.0" layoutY="84.0" prefHeight="18.0" prefWidth="120.0" text="Password" />
-            <PasswordField fx:id="txtRepeatPassword" layoutX="488.0" layoutY="197.0" prefHeight="26.0" prefWidth="162.0" />
-            <Label fx:id="lbRepeatPassword" layoutX="367.0" layoutY="199.0" prefHeight="21.0" prefWidth="120.0" text="Repeat Password" />
             <PasswordField fx:id="txtPassword" layoutX="488.0" layoutY="80.0" prefHeight="26.0" prefWidth="162.0" />
+            <Label fx:id="lbRepeatPassword" layoutX="367.0" layoutY="199.0" prefHeight="21.0" prefWidth="120.0" text="Repeat Password" />
+            <PasswordField fx:id="txtRepeatPassword" layoutX="488.0" layoutY="197.0" prefHeight="26.0" prefWidth="162.0" />
             <Label alignment="CENTER" layoutY="28.0" prefHeight="21.0" prefWidth="715.0" text="Complete all the fields for a succesfull SignUp" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -61,9 +61,9 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="btBack" layoutX="399.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Back" />
+            <Button fx:id="btBack" layoutX="36.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Back" />
             <Button fx:id="btSignUp" layoutX="563.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="SignUp" />
-            <Button fx:id="btHelp" layoutX="36.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Help" />
+            <Button fx:id="btHelp" layoutX="450.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="74.0" text="Help" />
          </children>
       </AnchorPane>
    </children>

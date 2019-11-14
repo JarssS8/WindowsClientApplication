@@ -6,11 +6,16 @@
 package windowsclientapplication.controller;
 
 import clientlogic.logic.Client;
+import clientlogic.logic.ConnectableClientFactory;
 import com.sun.java.accessibility.util.EventID;
+import com.sun.javafx.tk.FocusCause;
+import com.sun.webkit.event.WCFocusEvent;
+import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
@@ -34,6 +39,7 @@ import javafx.stage.WindowEvent;
 import utilities.beans.User;
 import utilities.exception.LoginAlreadyTakenException;
 import utilities.exception.ServerConnectionErrorException;
+import utilities.interfaces.Connectable;
 import utilities.util.Util;
 
 /**
@@ -89,17 +95,39 @@ public class SignUpWindowController {
     private Button btHelp;
 
     private Stage stage;
-
-    private Client client;
-
+    
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    private Connectable client;
+    
+    /**
+     * Constructor that gets the stage from login
+     * @param stage 
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    public void setClient(Client client) {
+    
+    /**
+     * Constructor that gets the client from login
+     * @param client implementation from connectable interface
+     */
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    public void setClient(Connectable client) {
         this.client = client;
     }
 
+    /**
+     * Declaration of the port for the connection
+     */
+    private static final int PORT = Integer.parseInt(ResourceBundle.getBundle(
+            "windowsclientapplication.PropertiesClientSide").getString("PORT"));
+
+    /**
+     * Declaration of the IP for the connection
+     */
+    private static final String IP = ResourceBundle.getBundle(
+            "windowsclientapplication.PropertiesClientSide").getString("IP");
+    
     /**
      * This method initialize the window and everything thats the stage needs.
      * This calls other method when shows the window to set attributes of the
@@ -162,7 +190,7 @@ public class SignUpWindowController {
      */
     public void helpshortcut(KeyEvent ke) {
         KeyCode pressButton = ke.getCode();
-        if (pressButton.equals(KeyCode.F1)) {
+        if (pressButton.equals(KeyCode.F5)) {
             helpAction();
         }
     }
@@ -251,6 +279,8 @@ public class SignUpWindowController {
         if (event.getSource().equals(btSignUp)) {
             try {
                 if (checkValidation()) {
+                    /*MODIFICACIÓN DIN 13/11/2019*/
+                    client = ConnectableClientFactory.getClient(IP,PORT);
                     LOGGER.info("Creating new user...");
                     User user = new User();
                     user.setLogin(txtUsername.getText().trim());
@@ -397,6 +427,7 @@ public class SignUpWindowController {
 
             lbUsernameCaution.setTextFill(Paint.valueOf("RED"));
             /*MODIFICACIÓN DIN 13/11/2019*/
+            
             txtUsername.requestFocus();
         }
 
@@ -410,7 +441,10 @@ public class SignUpWindowController {
 
             lbPasswordCaution1.setTextFill(Paint.valueOf("RED"));
             /*MODIFICACIÓN DIN 13/11/2019*/
-            txtPassword.requestFocus();
+            if(!txtUsername.isFocused() && !txtEmail.isFocused() && !txtEmail.isFocused()){
+                txtPassword.requestFocus();
+            }
+            
         }
 
         if (passCheck) {
@@ -424,7 +458,9 @@ public class SignUpWindowController {
             lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
             lbPasswordCaution2B.setTextFill(Paint.valueOf("RED"));
             /*MODIFICACIÓN DIN 13/11/2019*/
-            txtPassword.requestFocus();
+           if(!txtUsername.isFocused() && !txtEmail.isFocused() && !txtEmail.isFocused()){
+                txtPassword.requestFocus();
+            }
         }
 
         if (passCheckRepeat) {
@@ -435,7 +471,10 @@ public class SignUpWindowController {
 
             lbPasswordCaution3.setTextFill(Paint.valueOf("RED"));
             /*MODIFICACIÓN DIN 13/11/2019*/
-            txtRepeatPassword.requestFocus();
+            if(!txtUsername.isFocused() && !txtEmail.isFocused() && !txtEmail.isFocused() && !txtPassword.isFocused() ){
+                txtRepeatPassword.requestFocus();
+            }
+            
         }
         if (emailCheck) {
 
@@ -446,7 +485,9 @@ public class SignUpWindowController {
 
             lbEmailCaution.setTextFill(Paint.valueOf("RED"));
             /*MODIFICACIÓN DIN 13/11/2019*/
-            txtEmail.requestFocus();
+            if(!txtUsername.isFocused()){
+                txtEmail.requestFocus();
+            }
         }
 
         if (!txtFullName.getText().trim().isEmpty() && txtFullName.getText().trim().length() < 44) {
@@ -458,7 +499,10 @@ public class SignUpWindowController {
 
             lbFullNameCaution.setTextFill(Paint.valueOf("RED"));
             /*MODIFICACIÓN DIN 13/11/2019*/
-            txtFullName.requestFocus();
+            if(!txtUsername.isFocused() && !txtEmail.isFocused()){
+                txtFullName.requestFocus();
+            }
+            
         }
 
         if (username && passwordlength && passwordRepeat && passwordCheck

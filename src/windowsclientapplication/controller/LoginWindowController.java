@@ -77,7 +77,7 @@ public class LoginWindowController {
 
     @FXML
     private Label lbPass;
-    
+    /*MODIFICACIÓN DIN 13/11/2019*/
     private Connectable client;
 
     private static final Logger LOGGER = Logger.getLogger(
@@ -108,8 +108,12 @@ public class LoginWindowController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-    public void setClient(Client client){
+    /**
+     * A constructor that gets the client from the application
+     * @param client implementation from connectable interface
+     */
+    /*MODIFICACIÓN DIN 13/11/2019*/
+    public void setClient(Connectable client){
         this.client=client;
     }
 
@@ -255,6 +259,8 @@ public class LoginWindowController {
             User user = new User();
             user.setLogin(txtLogin.getText().trim());
             user.setPassword(txtPass.getText().trim());
+             /*MODIFICACIÓN DIN 13/11/2019*/
+            client = ConnectableClientFactory.getClient(IP,PORT);
             LOGGER.info("Client created...");
             user = client.logIn(user);
 
@@ -317,7 +323,7 @@ public class LoginWindowController {
         SignUpWindowController signUpController
                 = ((SignUpWindowController) loader.getController());
         signUpController.setStage(stage);
-        signUpController.setClient((Client) client);
+        signUpController.setClient(client);
         signUpController.initStage(root);
     }
 
