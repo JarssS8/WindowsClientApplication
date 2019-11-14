@@ -128,7 +128,7 @@ public class LogOutWindowController {
         alert.setHeaderText(mssg[1]);
         alert.setContentText(mssg[2]);
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
-        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         buttonYes.setId("buttonYes");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES) {

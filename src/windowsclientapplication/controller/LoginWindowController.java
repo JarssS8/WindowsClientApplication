@@ -33,6 +33,7 @@ import utilities.exception.LoginNotFoundException;
 import utilities.exception.ServerConnectionErrorException;
 import utilities.exception.WrongPasswordException;
 import utilities.interfaces.Connectable;
+import static javafx.scene.input.KeyCode.F1;
 
 /**
  * This class is a controller UI class for LogIn_Window view. Contains event
@@ -126,11 +127,13 @@ public class LoginWindowController {
         //Listeners
         txtLogin.textProperty().addListener(this::textChange);
         txtPass.textProperty().addListener(this::textChange);
+        
 
         //Stage show
         stage.show();
     }
-
+    
+    /*MODIFICACION TOOLTIPS Y PROMPTEXT DE LOS CAMPOS DE LOGIN Y PASSWORD 14/11/2019 12:40 */
     /**
      * This is the method to control the components of this window when we shows
      * the window.
@@ -144,6 +147,10 @@ public class LoginWindowController {
         btLogin.setTooltip(new Tooltip("Click to complete the login"));
         lbLogin.setTooltip(new Tooltip("Username to login"));
         lbPass.setTooltip(new Tooltip("Password to login"));
+        txtLogin.setPromptText("Insert the username here");
+        txtLogin.setTooltip(new Tooltip("The username should have between 4 and 10 characters"));
+        txtPass.setPromptText("Insert the password here");
+        txtPass.setTooltip(new Tooltip("The username should have between 8 and 14 characters, including at least one number and one uppercase"));
         linkClickHere.setTooltip(new Tooltip("Click here to sign up"));
     }
 
@@ -171,6 +178,7 @@ public class LoginWindowController {
             event.consume();
         }
     }
+
     /*MODIFICACION REVISAR SI EL BOTON DE LOGIN SE ACTIVA CUANDO DEBE 13/11/2019 14:40*/
     /**
      * Checks every time that the user change the TextField and if both formats
@@ -250,6 +258,8 @@ public class LoginWindowController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("LogIn Error");
             alert.setContentText("User does not exist");
+            Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            errorButton.setId("loginNotFoundError");
             alert.showAndWait();
         } catch (WrongPasswordException e) {
             /*MODIFICACION MENSAJE SI LA CONTRASEÑA ES INCORRECTA 13/11/2019 14:04*/
@@ -257,12 +267,16 @@ public class LoginWindowController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Password Error");
             alert.setContentText("Password is not correct");
+            Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            errorButton.setId("wrongPasswordError");
             alert.showAndWait();
         } catch (ServerConnectionErrorException ex) {
             LOGGER.warning("LoginWindowController: Server connection error");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Server Error");
             alert.setContentText("Unable to connect with server");
+            Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+            errorButton.setId("serverConnectionError");
             alert.showAndWait();
         } catch (IOException ex) {
             LOGGER.warning("LoginWindowController: IO Exception on LoginWindowController");

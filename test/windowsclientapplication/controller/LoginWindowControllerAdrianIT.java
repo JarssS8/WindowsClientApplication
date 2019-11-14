@@ -4,16 +4,23 @@
  * and open the template in the editor.
  */
 package windowsclientapplication.controller;
+import static javafx.scene.input.KeyCode.F1;
 import javafx.stage.Stage;
 import org.junit.After;
 import org.junit.Assert;
+import static org.junit.Assert.assertThat;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.testfx.api.FxAssert;
 import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import org.testfx.matcher.base.WindowMatchers;
+import org.testfx.matcher.control.LabeledMatchers;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 import windowsclientapplication.WindowsClientApplication;
 
@@ -52,7 +59,6 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
      */
     @Test
     public void test1_InitialState(){
-        //Falta window name
         verifyThat("#txtLogin",hasText(""));
         verifyThat("#txtPass",hasText(""));
         verifyThat("#btLogin", isDisabled());
@@ -141,16 +147,76 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
     /**
      * Test when the application can't connect with the server and shows an AlertDialog
      */
+    //@Test
     public void test4_ConnectionError(){
-        Assert.assertThat(targetWindow("Server Error").lookup(".label").queryLabeled()).hasText("Unable to connect with server");
-    }
-    /*
-    public void test4_UsernameAndPasswordGoodFormat(){
         clickOn("#txtLogin");
-        write("j2NM45");
+        write("user");
         clickOn("#txtPass");
-        write("j2NM45edbn");
-        verifyThat("#btLogin", isEnabled());
+        write("BBccd1234");
+        clickOn("#btLogin");
+        FxAssert.verifyThat("#serverConnectionError",isEnabled());
+        clickOn(".button");
     }
-    */
+    
+    @Test
+    public void test5_HelpWindow(){
+        type(F1);
+    }
+    /**
+     * Test when you can access to the server but the username don't exist on the DataBase
+     */
+    
+    @Test
+    public void test6_LoginNotFound(){
+        clickOn("#txtLogin");
+        write("Test2");
+        clickOn("#txtPass");
+        write("12345678A");
+        clickOn("#btLogin");
+        FxAssert.verifyThat("#loginNotFoundError",isEnabled());
+        clickOn("#loginNotFoundError");
+    }
+    
+    /**
+     * Test when you can access to the server and the username is correct but the password don't match
+     */
+    @Test
+    public void test7_PasswordNotCorrect(){
+        clickOn("#txtLogin");
+        write("Test");
+        clickOn("#txtPass");
+        write("Abcd*1234");
+        clickOn("#btLogin");
+        FxAssert.verifyThat("#wrongPasswordError",isEnabled());
+        clickOn("#wrongPasswordError");
+    }
+    
+    /**
+     * Test if the user can access to SignUp window correctly and come back to the LoginWindow
+     */
+    @Test
+    public void test8_SignUpWindow(){
+        clickOn("#linkClickHere");
+        FxAssert.verifyThat("#CompleteAll",LabeledMatchers.hasText("Complete all the fields for a succesfull SignUp"));
+        clickOn("#btBack");
+        clickOn("Yes");
+    
+    }
+    
+    /**
+     * Test with a correct username and password can access to the LogOut Window
+     * and then return to the Login Window
+     */
+    @Test
+    public void test9_CorrectUsernameAndPassword(){
+        clickOn("#txtLogin");
+        write("Test");
+        clickOn("#txtPass");
+        write("12345678A");
+        clickOn("#btLogin");
+        verifyThat("#bopMainWin", isVisible());
+        clickOn("#hlLogOut");
+        clickOn("#buttonYes");
+    }
+    
 }

@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
+<Pane fx:id="signUpWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
    <children>
       <AnchorPane prefHeight="402.0" prefWidth="715.0">
          <children>
-            <Label alignment="CENTER" layoutY="28.0" prefHeight="21.0" prefWidth="715.0" text="Complete all the fields for a succesfull SignUp" underline="true">
+            <Label fx:id="CompleteAll" alignment="CENTER" layoutY="28.0" prefHeight="21.0" prefWidth="715.0" text="Complete all the fields for a succesfull SignUp" underline="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
