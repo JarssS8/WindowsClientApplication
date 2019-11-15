@@ -25,7 +25,7 @@ import windowsclientapplication.WindowsClientApplication;
  * @author Adrian
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LoginWindowControllerAdrianIT extends ApplicationTest {
+public class LoginWindowControllerAdrianNoConnectionIT extends ApplicationTest {
     
     /**
      * Starts the application who gonna be tested
@@ -129,7 +129,7 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
     /**
      * Test when the application can't connect with the server and shows an AlertDialog
      */
-    //@Test
+    @Test
     public void test4_ConnectionError(){
         clickOn("#txtLogin");
         write("user");
@@ -139,42 +139,11 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
         FxAssert.verifyThat("#serverConnectionError",isEnabled());
         clickOn("#serverConnectionError");
     }
-    
-    /**
-     * Test when you can access to the server but the username don't exist on the DataBase
-     */
-    
-    @Test
-    public void test5_LoginNotFound(){
-        
-        clickOn("#txtLogin");
-        write("Test2");
-        clickOn("#txtPass");
-        write("12345678A");
-        clickOn("#btLogin");
-        FxAssert.verifyThat("#loginNotFoundError",isEnabled());
-        clickOn("#loginNotFoundError");
-    }
-    
-    /**
-     * Test when you can access to the server and the username is correct but the password don't match
-     */
-    @Test
-    public void test6_PasswordNotCorrect(){
-        clickOn("#txtLogin");
-        write("Test");
-        clickOn("#txtPass");
-        write("Abcd*1234");
-        clickOn("#btLogin");
-        FxAssert.verifyThat("#wrongPasswordError",isEnabled());
-        clickOn("#wrongPasswordError");
-    }
-    
     /**
      * Test if the user can access to SignUp window correctly and come back to the LoginWindow
      */
     @Test
-    public void test7_SignUpWindow(){
+    public void test5_SignUpWindow(){
         clickOn("#linkClickHere");
         verifyThat("#signUpWindow", isVisible());
         FxAssert.verifyThat("#CompleteAll",LabeledMatchers.hasText("Complete all the fields for a succesfull SignUp"));
@@ -182,28 +151,11 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
         clickOn("Yes");
     
     }
-    
-    /**
-     * Test with a correct username and password can access to the LogOut Window
-     * and then return to the Login Window
-     */
-    @Test
-    public void test8_CorrectUsernameAndPassword(){
-        clickOn("#txtLogin");
-        write("Test");
-        clickOn("#txtPass");
-        write("12345678A");
-        clickOn("#btLogin");
-        verifyThat("#bopMainWin", isVisible());
-        clickOn("#hlLogOut");
-        clickOn("#buttonYes");
-    }
-    
     /**
      * Test if help window shows correctly when type the F1 key
      */
     @Test
-    public void test9_HelpWindow(){
+    public void test6_HelpWindow(){
         type(F1);
         verifyThat("#helpWindow", isVisible());
     }
