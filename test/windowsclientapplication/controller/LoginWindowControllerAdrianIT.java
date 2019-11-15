@@ -6,20 +6,15 @@
 package windowsclientapplication.controller;
 import static javafx.scene.input.KeyCode.F1;
 import javafx.stage.Stage;
-import org.junit.After;
-import org.junit.Assert;
-import static org.junit.Assert.assertThat;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.testfx.api.FxAssert;
 import static org.testfx.api.FxAssert.verifyThat;
-import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import org.testfx.matcher.base.WindowMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 import windowsclientapplication.WindowsClientApplication;
@@ -41,19 +36,6 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
     public void start(Stage stage) throws Exception{
         new WindowsClientApplication().start(stage);
     }
-    
-    /**
-     * This method is going to be executed after every test in this class.
-     * It's for clean the fields for the next text
-     */
-    @After
-    public void eraseText(){
-        doubleClickOn("#txtLogin");
-        eraseText(1);
-        doubleClickOn("#txtPass");
-        eraseText(1);
-    } 
-    
     /**
      * Tests if the view have the correct initial state 
      */
@@ -88,7 +70,7 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
         write("1234567A");
         verifyThat("#btLogin",isDisabled());
         doubleClickOn("#txtLogin");
-        eraseText(20);
+        eraseText(1);
         write("aS3");
         verifyThat("#btLogin",isDisabled());
     }
@@ -131,7 +113,7 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
         write("jars");
         verifyThat("#btLogin", isDisabled());
         doubleClickOn("#txtPass");
-        eraseText(20);
+        eraseText(1);
         write("aaaeeee");
         verifyThat("#btLogin", isDisabled());
         write("a");
@@ -155,19 +137,16 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
         write("BBccd1234");
         clickOn("#btLogin");
         FxAssert.verifyThat("#serverConnectionError",isEnabled());
-        clickOn(".button");
+        clickOn("#serverConnectionError");
     }
     
-    @Test
-    public void test5_HelpWindow(){
-        type(F1);
-    }
     /**
      * Test when you can access to the server but the username don't exist on the DataBase
      */
     
     @Test
-    public void test6_LoginNotFound(){
+    public void test5_LoginNotFound(){
+        
         clickOn("#txtLogin");
         write("Test2");
         clickOn("#txtPass");
@@ -181,7 +160,7 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
      * Test when you can access to the server and the username is correct but the password don't match
      */
     @Test
-    public void test7_PasswordNotCorrect(){
+    public void test6_PasswordNotCorrect(){
         clickOn("#txtLogin");
         write("Test");
         clickOn("#txtPass");
@@ -195,8 +174,9 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
      * Test if the user can access to SignUp window correctly and come back to the LoginWindow
      */
     @Test
-    public void test8_SignUpWindow(){
+    public void test7_SignUpWindow(){
         clickOn("#linkClickHere");
+        verifyThat("#signUpWindow", isVisible());
         FxAssert.verifyThat("#CompleteAll",LabeledMatchers.hasText("Complete all the fields for a succesfull SignUp"));
         clickOn("#btBack");
         clickOn("Yes");
@@ -208,7 +188,7 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
      * and then return to the Login Window
      */
     @Test
-    public void test9_CorrectUsernameAndPassword(){
+    public void test8_CorrectUsernameAndPassword(){
         clickOn("#txtLogin");
         write("Test");
         clickOn("#txtPass");
@@ -217,6 +197,15 @@ public class LoginWindowControllerAdrianIT extends ApplicationTest {
         verifyThat("#bopMainWin", isVisible());
         clickOn("#hlLogOut");
         clickOn("#buttonYes");
+    }
+    
+    /**
+     * Test if help window shows correctly when type the F1 key
+     */
+    @Test
+    public void test9_HelpWindow(){
+        type(F1);
+        verifyThat("#helpWindow", isVisible());
     }
     
 }

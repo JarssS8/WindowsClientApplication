@@ -42,8 +42,13 @@
                   </HBox>
                </children>
             </VBox>
+            <Label layoutX="23.0" layoutY="306.0" prefHeight="47.0" prefWidth="229.0" text="If you need help press F1">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Button fx:id="btLogin" layoutX="538.0" layoutY="317.0" mnemonicParsing="false" onAction="#loginClick" text="LogIn" />
          </children>
       </AnchorPane>
-      <Button fx:id="btLogin" layoutX="538.0" layoutY="318.0" mnemonicParsing="false" onAction="#loginClick" text="LogIn" />
    </children>
 </Pane>
