@@ -40,7 +40,7 @@ import utilities.util.Util;
  * This class is a controller UI class for SignUp_Window view. Contains event
  * handlers and on window showing code.
  *
- * @author Aimar Arrizabalaga & Gaizka Andrés
+ * @author Aimar Arrizabalaga and Gaizka Andrés
  */
 public class SignUpWindowController {
 
@@ -96,7 +96,7 @@ public class SignUpWindowController {
     /**
      * Constructor that gets the stage from login
      *
-     * @param stage
+     * @param stage the stage for this class
      */
     public void setStage(Stage stage) {
         this.stage = stage;

@@ -80,9 +80,8 @@ public class LogOutWindowController {
     /**
      * Method to initialize the window
      *
-     * @param root
-     * @param client
-     * @param user
+     * @param root The parent object
+     * @param user the object that use
      */
     public void initStage(Parent root, User user) {
         try {

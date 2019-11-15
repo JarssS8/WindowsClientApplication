@@ -30,7 +30,7 @@ public class HelpController {
     /**
      * Help window initialization and showing.
      *
-     * @param root
+     * @param root The parent object
      */
     public void initAndShowStage(Parent root) {
         Scene scene = new Scene(root);
