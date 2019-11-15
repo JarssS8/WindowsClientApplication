@@ -22,6 +22,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -124,7 +128,7 @@ public class LogOutWindowController {
     /**
      * Method to initialize the window
      *
-     * @param root the loader forthe scene
+     * @param root the loader for the scene
      * @param user The user wich is loged in
      */
     public void initStage(Parent root, User user) {
@@ -137,40 +141,98 @@ public class LogOutWindowController {
             stage.setTitle("Welcome");
             stage.setResizable(false);
             stage.setOnShowing(this::onWindowShowing);
-            stage.setOnCloseRequest(this::handleCrossAction);
+            stage.setOnCloseRequest(this::handleCrossCloseAction);
             mbClose.setOnAction(this::handleCloseAction);
+            mbClose.setAccelerator(new KeyCodeCombination(KeyCode.C,KeyCombination.CONTROL_DOWN)); //Modificacion DIN 14/11/2019
             mbAbout.setOnAction(this::handleAboutAction);
+            mbAbout.setAccelerator(new KeyCodeCombination(KeyCode.F1)); //Modificacion DIN 14/11/2019
             hlLogOut.setBorder(Border.EMPTY); //Modificacion DIN 14/11/2019
-            hlLogOut.setOnAction(this::handleCloseAction);
+            hlLogOut.setOnAction(this::handleLogOutAction);
+            hlLogOut.setOnKeyTyped(this::handleLogOutKeyAction);
             stage.show(); //Modificacion DIN 14/11/2019
         } catch (Exception e) {
             LOGGER.severe("Can not initialize the main window");
         }
     }
 
+    
+    
+    
     /**
-     * Method that handle the close option of the menu bar and logout hyperlink
-     * of the status bar / confirmation close alert
-     *
-     * @param event The event is the user trying to close the application
+     * Method that handle the close option of the menu bar or pressing 
+     * Ctrl + C and calls to the Log Out method.
+     * 
+     * @param event The event is the user clicking the Close Option on the
+     * menu bar or pressing Ctrl + C
      */
-    public void handleCloseAction(ActionEvent event) {
-        boolean is = false;
-        String[] mssg = new String[3];
-        if (event.getSource().equals(mbClose)) {//Menu close
-            mssg[0] = "Close confirmation";
-            mssg[1] = "You pressed the 'Close' button.";
-            mssg[2] = "Are you sure?";
-        } else {//LogOut
-            is = true;
-            mssg[0] = "LogOut confirmation";
-            mssg[1] = "You pressed the 'LogOut' button.";
-            mssg[2] = "Are you sure?";
-        }
+    public void handleCloseAction(ActionEvent event) { //Modificacion DIN 14/11/2019
+        close();
+    }
+    
+    /**
+     * Method that handle the close option when user closes the application by
+     * clicking the cross of the window and calls close method.
+     * 
+     * @param event The event is the user clicking the cross of the window
+     */
+    public void handleCrossCloseAction(WindowEvent event) { //Modificacion DIN 14/11/2019
+        close();
+    }
+    
+    /**
+     * Method that handle the logout option by shortcut and calls
+     * to the Log Out method.
+     *
+     * @param event The event is the user pressing Ctrl + L
+     */
+    public void handleLogOutKeyAction(KeyEvent event) { //Modificacion DIN 14/11/2019
+        logOut();
+    }
+    
+    /**
+     * Method that handle the logout hyperlink of the status bar and calls
+     * to the Log Out method.
+     *
+     * @param event The event is the user clicking the Log Out Hyperlink
+     */
+    public void handleLogOutAction(ActionEvent event) { //Modificacion DIN 14/11/2019
+        logOut();
+    }
+
+    /**
+     * Method that handle the close alert
+     */
+    public void close(){ //Modificacion DIN 14/11/2019
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle(mssg[0]);
-        alert.setHeaderText(mssg[1]);
-        alert.setContentText(mssg[2]);
+        alert.setTitle("Close confirmation");
+        alert.setHeaderText("You are about to close the application.");
+        alert.setContentText("Are you sure?");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        buttonYes.setId("buttonYes");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES) {
+            try {
+                client.logOut(user);
+                LOGGER.info("User loggin date updated sucesfully");
+            } catch (ServerConnectionErrorException e) {
+                LOGGER.warning("Couldn't connect to server. LogOut date not updated.");
+            }finally{
+                Platform.exit();
+            }
+        } else {
+            alert.close();
+        }
+    }
+    
+    /**
+     * Method that handle the Log Out alert
+     */
+    public void logOut(){ //Modificacion DIN 14/11/2019
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("LogOut confirmation");
+        alert.setHeaderText("You are about to Log Out.");
+        alert.setContentText("Are you sure?");
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
         Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
         buttonYes.setId("buttonYes");
@@ -179,52 +241,21 @@ public class LogOutWindowController {
             try {
                 client.logOut(user);
                 LOGGER.info("User login date updated sucesfully");
-                if (is) {
-                    stage.close();
-                } else {
-                    Platform.exit();
-                }
             } catch (ServerConnectionErrorException e) {
                 LOGGER.warning("Couldn't connect to server. LogOut date not updated.");
+            }finally{
                 stage.close();
             }
         } else {
-            event.consume();
+            alert.close();
         }
     }
 
     /**
-     * Method that handle the cross button of the window to close the
-     * application confirmation
+     * Method that handle the about/help option of the menu
      *
-     * @param event The event is the user trying to close the application with
-     * the cross of the stage.
-     */
-    public void handleCrossAction(WindowEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Close confirmation");
-        alert.setHeaderText("You pressed the Cross(Close) button.");
-        alert.setContentText("Are you sure?");
-        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.YES) {
-            try {
-                client.logOut(user);
-                LOGGER.info("User loggin date updated sucesfully");
-                Platform.exit();
-            } catch (ServerConnectionErrorException e) {
-                LOGGER.warning("Couldn't connect to server. LogOut date not updated.");
-                Platform.exit();
-            }
-        } else {
-            event.consume();
-        }
-    }
-
-    /**
-     * Method that handle the about/help option of the menu bar
-     *
-     * @param event The event is the user trying to open the help window
+     * @param event The event is the user trying to open the help window or 
+     * pressing F1
      *
      */
     public void handleAboutAction(ActionEvent event) {
@@ -258,12 +289,9 @@ public class LogOutWindowController {
         lblLastConn.setText(user.getLastAccess().toString());
         lblEmail.setText(user.getEmail());
         lblLastPass.setText(user.getLastPasswordChange().toString());
-        
         if(nameSpace != -1 && nameSpace != 0) //Modificacion DIN 14/11/2019
             auxName = auxName.substring(0, nameSpace);
         lblStatusUser.setText(auxName); //Modificacion DIN 14/11/2019
-        
-        //lblStatusUser.setText(user.getLogin());
         lblStatusLastConn.setText(user.getLastAccess().toString());
     }
 

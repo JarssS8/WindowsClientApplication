@@ -35,7 +35,7 @@
         <menus>
           <Menu fx:id="menOpt" mnemonicParsing="false" text="Options">
             <items>
-              <MenuItem fx:id="mbClose" mnemonicParsing="false" onAction="#handleCloseAction" text="Close" />
+              <MenuItem fx:id="mbClose" mnemonicParsing="false" onAction="#handleCloseAction" text="Close"  />
             </items>
           </Menu>
           <Menu fx:id="menHel" mnemonicParsing="false" text="Help">
