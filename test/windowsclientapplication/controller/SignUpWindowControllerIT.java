@@ -187,6 +187,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         clickOn("#btSignUp");
         FxAssert.verifyThat("#okbutton", isEnabled());
         clickOn("#okbutton");
+        clickOn("#linkClickHere");
     }
 
     /**
