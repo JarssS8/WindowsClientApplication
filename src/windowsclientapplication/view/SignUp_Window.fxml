@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="logInPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
+<Pane fx:id="SignUpPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="windowsclientapplication.controller.SignUpWindowController">
    <children>
       <BorderPane prefHeight="402.0" prefWidth="715.0">
          <top>
@@ -30,7 +30,7 @@
                      </padding>
                   </Label>
                   <TextField fx:id="txtUsername" layoutX="110.0" layoutY="43.0" prefHeight="25.0" prefWidth="175.0" />
-                  <Label fx:id="lbUsernameCaution" layoutX="125.0" layoutY="76.0" text="*Username 4 -10 characters">
+                  <Label fx:id="lbUsernameCaution" alignment="CENTER" layoutX="16.0" layoutY="76.0" prefHeight="17.0" prefWidth="270.0" text="*Username 4 -10 characters">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
@@ -41,33 +41,33 @@
                      </padding>
                   </Label>
                   <TextField fx:id="txtEmail" layoutX="110.0" layoutY="126.0" prefHeight="25.0" prefWidth="175.0" />
-                  <Label fx:id="lbEmailCaution" layoutX="130.0" layoutY="160.0" text="example@extension.cope" />
+                  <Label fx:id="lbEmailCaution" alignment="CENTER" layoutX="9.0" layoutY="160.0" prefHeight="17.0" prefWidth="276.0" text="*example@extension.cope" />
                   <Label fx:id="lbFullName" layoutY="205.0" prefHeight="17.0" prefWidth="110.0" text="Full name">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
                   </Label>
                   <TextField fx:id="txtFullName" layoutX="110.0" layoutY="201.0" prefHeight="25.0" prefWidth="175.0" />
-                  <Label fx:id="lbFullNameCaution" layoutX="123.0" layoutY="236.0" text="*Full Name 1 - 45 characters">
+                  <Label fx:id="lbFullNameCaution" alignment="CENTER" layoutX="7.0" layoutY="236.0" prefHeight="17.0" prefWidth="279.0" text="*Full Name 1 - 45 characters">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
                   <Label fx:id="lbPassword" layoutX="360.0" layoutY="47.0" prefWidth="110.0" text="Password" />
                   <PasswordField fx:id="txtPassword" layoutX="470.0" layoutY="43.0" prefHeight="25.0" prefWidth="175.0" />
-                  <Label fx:id="lbPasswordCaution1" layoutX="487.0" layoutY="76.0" text="*Password 8 -14 characters">
+                  <Label fx:id="lbPasswordCaution1" alignment="CENTER" layoutX="358.0" layoutY="76.0" prefHeight="17.0" prefWidth="350.0" text="*Password 8 -14 characters">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbPasswordCaution2A" layoutX="361.0" layoutY="93.0" prefHeight="17.0" prefWidth="345.0" text="*Password must have at least an uppercase letter and a number">
+                  <Label fx:id="lbPasswordCaution2A" alignment="CENTER" layoutX="361.0" layoutY="93.0" prefHeight="17.0" prefWidth="344.0" text="*Must have at least a capital letter and a number">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
                   </Label>
                   <Label fx:id="lbRepeatPassword" layoutX="360.0" layoutY="128.0" prefHeight="21.0" prefWidth="110.0" text="Repeat Password" />
                   <PasswordField fx:id="txtRepeatPassword" layoutX="470.0" layoutY="126.0" prefHeight="25.0" prefWidth="175.0" />
-                  <Label fx:id="lbPasswordCaution3" layoutX="487.0" layoutY="160.0" text="*The password must be equal">
+                  <Label fx:id="lbPasswordCaution3" alignment="CENTER" layoutX="361.0" layoutY="160.0" prefHeight="17.0" prefWidth="347.0" text="*The password must be equal">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>

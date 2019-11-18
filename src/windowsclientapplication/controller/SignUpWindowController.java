@@ -86,20 +86,27 @@ public class SignUpWindowController {
     private Stage stage;
 
     private Connectable client;
-
+    
+    /**
+     * This method receives a Stage object.
+     * @param stage A Stage object.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     /* MODIFICACION DIN 13/11/2019 */
+    /**
+     * This method receives a client.
+     * @param client A Connectable implementation object.
+     */
     public void setClient(Connectable client) {
         this.client = client;
     }
 
     /**
-     * This method initialize the window and everything thats the stage needs.
-     * This calls other method when shows the window to set attributes of the
-     * window
+     * This method initializes the window and everything the stage needs. Calls
+     * other method when showing the window to set its attributes.
      *
      * @param root The parent object
      */
@@ -125,21 +132,21 @@ public class SignUpWindowController {
     }
 
     /**
-     * This is the method to control the components of this window when we shows
+     * This is the method to control the components of this window when we show
      * the window.
      *
      * @param event The event is the window that is being showed.
      */
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Setting the window...");
-        
+
         //Prompt Text
         txtUsername.setPromptText("Introduce login");
         txtEmail.setPromptText("Introduce email");
         txtPassword.setPromptText("Introduce password");
         txtRepeatPassword.setPromptText("Repeat password");
         txtFullName.setPromptText("Introduce full name");
-        
+
         //Tooltips
         btSignUp.setTooltip(new Tooltip("Click to complete the registration"));
         btBack.setTooltip(new Tooltip("Return to LogIn"));
@@ -150,7 +157,7 @@ public class SignUpWindowController {
         lbRepeatPassword.setTooltip(new Tooltip("Repeat the password"));
         lbEmail.setTooltip(new Tooltip("Email to send information"));
         lbFullName.setTooltip(new Tooltip("Your Full Name"));
-        
+
         //Mnemonic
         btSignUp.setMnemonicParsing(true);
         btBack.setMnemonicParsing(true);
@@ -164,20 +171,20 @@ public class SignUpWindowController {
     }
 
     /**
-     * This method is used if the user try to close the application clicking in
-     * the red cross(right-top in the stage) and control if the user is sure to
-     * close the application.
+     * This method is used if the user tries to close the application clicking
+     * in the red cross(right-top in the stage) and asks the user for
+     * confirmation to close.
      *
      * @param event The event is the user trying to close the application with
      * the cross of the stage.
      *
      */
     private void handleCloseAction(WindowEvent event) {
+        /* MODIFICACION DIN 18/11/2019 */
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Close confirmation");
-        alert.setHeaderText("You pressed the 'Close'. \n"
-                + "All the data will be erased..");
-        alert.setContentText("Are you sure?");
+        alert.setHeaderText("Registration will be cancelled");
+        alert.setContentText("Are you sure you want to exit?");
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES) {
@@ -187,10 +194,10 @@ public class SignUpWindowController {
         }
     }
 
-    
     /**
-     * This method receives and checks a Key Event and shows the help window if 
+     * This method receives and checks a Key Event and shows the help window if
      * the event is a F1 key pressing.
+     *
      * @param event A KeyEvent event.
      */
     /* MODIFICACION DIN 14/11/2019 */
@@ -209,11 +216,10 @@ public class SignUpWindowController {
                 helpController.initAndShowStage(root);
             }
         } catch (Exception ex) {
-            LOGGER.severe("SignUpWindowController: Error showing the help window");
+            LOGGER.severe("Error showing the help window");
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("ERROR");
-            alert.setContentText("There was an error loading the help window");
+            alert.setTitle("ERROR");
+            alert.setHeaderText("There was an error loading the help window");
             alert.showAndWait();
         }
     }
@@ -221,7 +227,8 @@ public class SignUpWindowController {
     /**
      * This method handles the HelpMe button. Loads, initializes and shows the
      * SignUpHelp window.
-     * @param event An ActionEvent event. 
+     *
+     * @param event An ActionEvent event.
      */
     /* MODIFICACION DIN 14/11/2019 */
     public void handleHelpMeButtonAction(ActionEvent event) {
@@ -236,26 +243,26 @@ public class SignUpWindowController {
         } catch (Exception ex) {
             LOGGER.severe("Error showing the help window");
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("ERROR");
-            alert.setContentText("There was an error loading the help window");
+            alert.setTitle("ERROR");
+            alert.setHeaderText("There was an error loading the help window");
             alert.showAndWait();
         }
     }
 
     /**
-     * A method that registres the button actions
+     * A method that registers the button actions
      *
-     * @param event An ActionEvent event.
+     * @param event An ActionEvent object.
      */
     public void handleButtonAction(ActionEvent event) {
 
         if (event.getSource().equals(btBack)) {
+            /* MODIFICACION DIN 18/11/2019 */
             LOGGER.info("Closing the window");
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Close confirmation");
-            alert.setHeaderText("Sign up cancelled.");
-            alert.setContentText("Are you sure?");
+            alert.setHeaderText("Registration will be cancelled");
+            alert.setContentText("Are you sure you want to exit?");
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.YES) {
@@ -296,7 +303,7 @@ public class SignUpWindowController {
                 } else {
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("ERROR");
-                    alert.setHeaderText("Sing up failed");
+                    alert.setHeaderText("Registration failed");
                     alert.setContentText("Check the validation tips below");
                     Button errorButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
                     errorButton.setId("errorbutton");
@@ -308,18 +315,18 @@ public class SignUpWindowController {
                     LOGGER.info("Error sending user");
                 }
             } catch (LoginAlreadyTakenException ex) {
+                /* MODIFICACION DIN 18/11/2019 */
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("SignUp Error");
-                alert.setContentText("An error ocurred trying to sign up, "
-                        + "login arleady taken.");
+                alert.setTitle("An error ocurred trying to sign up");
+                alert.setContentText("Login already taken");
                 Button LoginTakenButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
                 LoginTakenButton.setId("loginTakenButton");
+                txtUsername.requestFocus();
                 alert.showAndWait();
             } catch (ServerConnectionErrorException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("LogIn Error");
-                alert.setContentText("An error ocurred trying to sign up, "
-                        + "can not connect with the server.");
+                alert.setTitle("ERROR");
+                alert.setHeaderText("Unnable to connect with server");
                 alert.showAndWait();
             }
 
@@ -469,7 +476,6 @@ public class SignUpWindowController {
 
         }// End check password
 
-        
         //PassCheck
         if (passCheck) {
 
@@ -480,7 +486,7 @@ public class SignUpWindowController {
             /* MODIFICACION DIN 14/11/2019 */
             if (!focused) {
                 txtPassword.requestFocus();
-                focused=true;
+                focused = true;
             }
             lbPasswordCaution2A.setTextFill(Paint.valueOf("RED"));
 

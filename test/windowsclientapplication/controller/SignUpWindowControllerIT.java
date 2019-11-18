@@ -6,14 +6,15 @@
 package windowsclientapplication.controller;
 
 import javafx.stage.Stage;
-import org.junit.After;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.testfx.framework.junit.ApplicationTest;
 import windowsclientapplication.WindowsClientApplication;
 import org.testfx.api.FxAssert;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 /**
  *
@@ -30,7 +31,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
     /**
      * Clean all Textfields after one test
      */
-    @After
+    @Ignore
     public void cleanText() {
 
         doubleClickOn("#txtUsername");
@@ -51,7 +52,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
     /**
      * Test if the login is correct
      */
-    @Test
+    @Ignore
     public void testA_ErrorUsername() {
         clickOn("#linkClickHere");
         clickOn("#txtUsername");
@@ -70,7 +71,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
 
     }
 
-    @Test
+    @Ignore
     public void testB_ErrorPasswordUpperCase() {
 
         clickOn("#txtUsername");
@@ -92,7 +93,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
      * Test if the password length is correct
      *
      */
-    @Test
+    @Ignore
     public void testC_ErrorPasswordLength() {
 
         clickOn("#txtUsername");
@@ -113,7 +114,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
     /**
      * Test if the password field and repeatpassword are the same
      */
-    @Test
+    @Ignore
     public void testD_ErrorPasswordRepeat() {
 
         clickOn("#txtUsername");
@@ -134,7 +135,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
     /**
      * Test if the email have the correct pattern
      */
-    @Test
+    @Ignore
     public void testE_ErrorEmail() {
         clickOn("#txtUsername");
         write("Aimar");
@@ -154,7 +155,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
     /**
      * Test if fullname have the correct length
      */
-    @Test
+    @Ignore
     public void testF_ErrorFullName() {
         clickOn("#txtUsername");
         write("Aimar");
@@ -174,8 +175,9 @@ public class SignUpWindowControllerIT extends ApplicationTest {
      */
     @Test
     public void testG_SignUpOk() {
+        clickOn("#linkClickHere");
         clickOn("#txtUsername");
-        write("Aimar");
+        write("TestLogin");
         clickOn("#txtPassword");
         write("12345678A");
         clickOn("#txtRepeatPassword");
@@ -183,10 +185,11 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         clickOn("#txtEmail");
         write("email@ext.cope");
         clickOn("#txtFullName");
-        write("Aimar Null");
+        write("Test Login");
         clickOn("#btSignUp");
-        FxAssert.verifyThat("#okbutton", isEnabled());
+        FxAssert.verifyThat("Registration completed.", isVisible());
         clickOn("#okbutton");
+        FxAssert.verifyThat("#logInPane", isVisible());
     }
 
     /**
@@ -194,6 +197,7 @@ public class SignUpWindowControllerIT extends ApplicationTest {
      */
     @Test
     public void testH_SignUpLogintaken() {
+        clickOn("#linkClickHere");
         clickOn("#txtUsername");
         write("Aimar");
         clickOn("#txtPassword");
@@ -208,4 +212,5 @@ public class SignUpWindowControllerIT extends ApplicationTest {
         FxAssert.verifyThat("#loginTakenButton", isEnabled());
         clickOn("#loginTakenButton");
     }
+
 }
