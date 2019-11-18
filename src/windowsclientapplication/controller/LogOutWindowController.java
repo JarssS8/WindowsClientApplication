@@ -208,8 +208,10 @@ public class LogOutWindowController {
         alert.setHeaderText("You are about to close the application.");
         alert.setContentText("Are you sure?");
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
-        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         buttonYes.setId("buttonYes");
+        Button buttonNo = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        buttonNo.setId("buttonNo");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES) {
             try {
@@ -234,8 +236,10 @@ public class LogOutWindowController {
         alert.setHeaderText("You are about to Log Out.");
         alert.setContentText("Are you sure?");
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
-        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        Button buttonYes = (Button) alert.getDialogPane().lookupButton(ButtonType.YES);
         buttonYes.setId("buttonYes");
+        Button buttonNo = (Button) alert.getDialogPane().lookupButton(ButtonType.NO);
+        buttonNo.setId("buttonNo");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.YES) {
             try {
