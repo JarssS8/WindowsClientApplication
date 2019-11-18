@@ -6,6 +6,7 @@
 package windowsclientapplication.controller;
 
 //imports
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -59,7 +60,8 @@ public class LogOutWindowControllerIT extends ApplicationTest {
     public void testC_LogOut() {
         clickOn("#hlLogOut");
         FxAssert.verifyThat("#buttonYes", isVisible());
-        clickOn("#buttonYes");
+        FxAssert.verifyThat("#buttonNo", isVisible());
+        clickOn("#buttonNo");
     }
     
     /**
@@ -70,7 +72,8 @@ public class LogOutWindowControllerIT extends ApplicationTest {
         clickOn("#menOpt");
         clickOn("#mbClose");
         FxAssert.verifyThat("#buttonYes", isVisible());
-        clickOn("#buttonYes");
+        FxAssert.verifyThat("#buttonNo", isVisible());
+        clickOn("#buttonNo");
     }
     
     /**
@@ -81,6 +84,12 @@ public class LogOutWindowControllerIT extends ApplicationTest {
         clickOn("#menHel");
         clickOn("#mbAbout");
         FxAssert.verifyThat("#webView", isVisible());
-
+        press(KeyCode.ALT,KeyCode.F4);
+    }
+    @Test
+    public void testF_CloseFinal() {
+        clickOn("#menOpt");
+        clickOn("#mbClose");
+        clickOn("#buttonYes");
     }
 }
